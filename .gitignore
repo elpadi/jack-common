@@ -1,0 +1,11 @@
+vendor
+
+config/propel/*
+!config/propel/schema.xml
+!config/propel/propel-sample.json
+
+src/Jack/Propel
+
+website
+shopify
+mailer
