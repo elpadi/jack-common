@@ -31,8 +31,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Jack\\": "src/Jack",
-			"Website\\": "website/src/Website"
+			"Jack\\": "src/Jack"
 		}
 	}
 }

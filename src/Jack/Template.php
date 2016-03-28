@@ -9,7 +9,7 @@ abstract class Template {
 		$this->loader = new \Twig_Loader_Filesystem(static::getTemplateDir());
 		$this->twig = new \Twig_Environment($this->loader, array(
 			'debug' => DEBUG,
-			'cache' => DEBUG ? false : CACHE_DIR.'/twig',
+			'cache' => DEBUG ? false : JACK_DIR.'/cache/twig',
 		));
 		$this->twig->addFunction(new \Twig_SimpleFunction('urlFor', ['\Jack\App','routeLookUp']));
 		$this->twig->addGlobal('DEBUG', DEBUG);
