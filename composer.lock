@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "57bf58ee6dbbf3f64b1c7c56734c1c02",
-    "content-hash": "f17d0b90c7c01cfedd4a8842f678fb8d",
+    "hash": "cc46678fa2f5b7ba2881356b525d5df7",
+    "content-hash": "50ba5fb598999651f84c4d6b04d5f309",
     "packages": [
         {
             "name": "anahkiasen/underscore-php",
@@ -1173,12 +1173,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "78ff90f98b40e2e93a22df00aea048cef54a7a03"
+                "reference": "f1bbf6171eebf9e350c3aa2d67f51c2471a6adf8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/78ff90f98b40e2e93a22df00aea048cef54a7a03",
-                "reference": "78ff90f98b40e2e93a22df00aea048cef54a7a03",
+                "url": "https://api.github.com/repos/symfony/process/zipball/f1bbf6171eebf9e350c3aa2d67f51c2471a6adf8",
+                "reference": "f1bbf6171eebf9e350c3aa2d67f51c2471a6adf8",
                 "shasum": ""
             },
             "require": {
@@ -1214,7 +1214,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2016-03-23 13:33:04"
+            "time": "2016-03-30 10:41:47"
         },
         {
             "name": "symfony/translation",
@@ -1359,12 +1359,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "38aebd1045f91caaf25db0164e2703b21fb5359d"
+                "reference": "407e31ad9742ace5c3d01642f02a3b2e6062bae5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/38aebd1045f91caaf25db0164e2703b21fb5359d",
-                "reference": "38aebd1045f91caaf25db0164e2703b21fb5359d",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/407e31ad9742ace5c3d01642f02a3b2e6062bae5",
+                "reference": "407e31ad9742ace5c3d01642f02a3b2e6062bae5",
                 "shasum": ""
             },
             "require": {
@@ -1400,7 +1400,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2016-03-10 14:06:18"
+            "time": "2016-03-30 14:44:34"
         },
         {
             "name": "twig/twig",
@@ -1462,6 +1462,47 @@
                 "templating"
             ],
             "time": "2016-01-29 10:45:45"
+        },
+        {
+            "name": "umpirsky/twig-php-function",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/umpirsky/twig-php-function.git",
+                "reference": "53b4b1eb0c5eacbd7d66c504b7d809c79b4bedbc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/umpirsky/twig-php-function/zipball/53b4b1eb0c5eacbd7d66c504b7d809c79b4bedbc",
+                "reference": "53b4b1eb0c5eacbd7d66c504b7d809c79b4bedbc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "twig/twig": "~1.12"
+            },
+            "require-dev": {
+                "phpspec/phpspec": "~2.0",
+                "phpunit/phpunit": "~4.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Umpirsky\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Saša Stamenković",
+                    "email": "umpirsky@gmail.com"
+                }
+            ],
+            "description": "Call (almost) any PHP function from your Twig templates.",
+            "time": "2016-03-12 16:36:32"
         },
         {
             "name": "zendframework/zend-cache",
@@ -1935,6 +1976,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "umpirsky/twig-php-function": 20,
         "propel/propel": 20
     },
     "prefer-stable": false,

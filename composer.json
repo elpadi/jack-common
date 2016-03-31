@@ -18,6 +18,7 @@
 		"lstrojny/functional-php": "~1.0",
 		"slim/slim": "^3.0",
 		"twig/twig": "~1.0",
+		"umpirsky/twig-php-function": "dev-master",
 		"symfony/config": "~3.0",
 		"symfony/finder": "~3.0",
 		"hassankhan/config": "~0.10",

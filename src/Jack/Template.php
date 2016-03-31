@@ -11,13 +11,15 @@ abstract class Template {
 			'debug' => DEBUG,
 			'cache' => DEBUG ? false : JACK_DIR.'/cache/twig',
 		));
+		$this->twig->addExtension(new \Umpirsky\Twig\Extension\PhpFunctionExtension());
 		$this->twig->addFunction(new \Twig_SimpleFunction('urlFor', ['\Jack\App','routeLookUp']));
 		$this->twig->addGlobal('DEBUG', DEBUG);
 	}
 
 	public function render($path, $vars) {
 		try {
-			$this->twig->addGlobal('PATH', str_replace('/', '_', $path));
+			$this->twig->addGlobal('TEMPLATE_PATH', str_replace('/', ' ', $path));
+			$this->twig->addGlobal('URL_PATH', str_replace('/', ' ', substr($_SERVER['REQUEST_URI'], strlen(PUBLIC_ROOT))));
 			$content = $this->twig->render("parts/$path.twig", $vars);
 		}
 		catch (\Exception $e) {
