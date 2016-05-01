@@ -3,6 +3,8 @@ namespace Jack;
 
 class App {
 
+	use Jack;
+
 	public static $framework;
 	public static $assets;
 
@@ -50,6 +52,10 @@ class App {
 		$factory->setDebug(DEBUG);
 		$factory->addWorker(new CacheBustingWorker());
 		self::$assets = $factory;
+	}
+
+	public static function loadRoutes($dir, $appClassName='Jack\\App') {
+		new Router($dir, $appClassName);
 	}
 	
 }
