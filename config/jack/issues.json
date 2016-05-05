@@ -1,0 +1,78 @@
+{
+	"issues": {
+		"issue-1": {
+			"part-1": {
+				"sections": {
+					"cover": {
+						"title": "Madonna",
+						"subtitle": "Cover",
+						"tags": ["music","pop","film","art","muse"],
+						"description": "Madonna, as we all know her as Miss M, she is the ultimate Queen of pop. Working with miss M is an experience no one will never forget, meticulous, detail oriented, artist and style connoisseur and never compromising to get the best of what is possible. I remembered doing sketches at her upper west side home … discussing and drawing scenes as we create the ageless images - soft with such fluid flow. Miss M is a an artist and she knows exactly what works and watching her on set is nothing short of watching a true star performing effortlessly.\n\nThis premiere launch issue of Jack number one is a tribute and homage to a true legend - Madonna. This is where it all begins … we LOVE you miss M!!",
+						"images": [{
+							"filename": "cover_front"
+						},{
+							"filename": "cover_back"
+						},{
+							"filename": "1_front-contents"
+						},{
+							"filename": "1_back-madonna-standing"
+						},{
+							"filename": "2_front-madonna-collage"
+						}]
+					},
+					"love": {
+						"title": "Jack is Love",
+						"subtitle": "Love",
+						"tags": ["jack","love","art","voiceless","innocents"],
+						"description": "This image is made with pure love, dedicated to all the voiceless + innocents, especially to my babies who have passed on and now playing together over the rainbow - Bing Bing, Hana, Eme, Frou, Mimi, Baby, mami, mina, lily, fei fei, lily. I am a better person because of them, and i am still learning life through the eyes of all voiceless and innocents. How life has been so beautiful with them … and how much pain i felt when they left me.\n\nI could never live my life without them … here is to love, to the voiceless and innocents.",
+						"images": [{
+							"filename": "2_back-prayer"
+						}]
+					},
+					"dm-vp": {
+						"title": "Dangerous Muse + Vanity Police",
+						"subtitle": "New Breed",
+						"tags": ["music","pop","muse","art","new breed","electronic"],
+						"description": "I first met Mike Fury and Tom Napack when they were both together as Dangerous Muse, and then i heard they broke up and now each has their own band, Mike with Dangerous Muse and Tom with Vanity Police. I remembered how amazing when i first met these duo, a true creative force with such great looks and talent, Mike on vocals and writing the songs and Tom making and producing the sound that is electrifying and sexy music to the ears. Mike continues to “ wow “ us with his lyrics and writing, and such presence and haunting voice … Tom continues to give us his hypnotic sound with Vanity Police. They are the ones to watch, they are the new breed.",
+						"images": [{
+							"filename": "3-4_front-dm-chase"
+						},{
+							"filename": "3_back-dm-mask"
+						},{
+							"filename": "4_back-dm-club-tom"
+						}]
+					},
+					"keys": {
+						"title": "Alicia Keys",
+						"subtitle": "Soul Sister Soul",
+						"tags": ["music","pop","soul","r n b","muse","art","fashion"],
+						"description": "Gutsy, beautiful, talented … that is my first impression of Alicia Keys. Working with Alicia shows me how deep she is, someone beyond her age, wisdom and beauty, and so very talented. I adore how her hair looks and decided on this look which reminded me of the 60s and the 70s.",
+						"images": [{
+							"filename": "5-6_front-keys-hendrix"
+						},{
+							"filename": "5_back-keys-hands"
+						}]
+					},
+					"snoop": {
+						"title": "Snoop Dogg",
+						"subtitle": "Soul Brother Soul",
+						"tags": ["music","pop","hip hop","art","fashion","style"],
+						"description": "Wow, what a shoot … meeting with snoop with his incredible deluxe taste and style, he knows what works for him, he chose element of clothes and accessories to compliment his personality, so at ease … we love snoop.",
+						"images": [{
+							"filename": "6_back-snoop-spread"
+						}]
+					},
+					"mjb": {
+						"title": "Mary J Blige",
+						"subtitle": "Soul Sister Soul",
+						"tags": ["music","pop","r n b","art","fashion"],
+						"description": "Imagine meeting with Mary, the woman with the most amazing soulful voice, asking me to join hands.",
+						"images": [{
+							"filename": "7_front-mjb-swing"
+						}]
+					}
+				}
+			}
+		}
+	}
+}
