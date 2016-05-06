@@ -18,6 +18,7 @@ abstract class Template {
 
 	public function render($path, $vars) {
 		try {
+			$this->twig->addGlobal('MINIFY_SCRIPTS', !DEBUG);
 			$this->twig->addGlobal('TEMPLATE_PATH', str_replace('/', ' ', $path));
 			$this->twig->addGlobal('URL_PATH', str_replace('/', ' ', substr($_SERVER['REQUEST_URI'], strlen(PUBLIC_ROOT))));
 			$content = $this->twig->render("parts/$path.twig", $vars);
