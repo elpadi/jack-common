@@ -26,7 +26,7 @@ abstract class Template {
 			$this->twig->addGlobal('MINIFY_SCRIPTS', !DEBUG);
 			$this->twig->addGlobal('TEMPLATE_PATH', str_replace('/', ' ', $path));
 			$this->twig->addGlobal('URL_PATH', str_replace('/', ' ', substr($_SERVER['REQUEST_URI'], strlen(PUBLIC_ROOT))));
-			$content = $this->twig->render("parts/$path.twig", $vars);
+			$content = $this->twig->render($path === 'default' ? "$path.twig" : "parts/$path.twig", $vars);
 		}
 		catch (\Exception $e) {
 			var_dump(__FILE__.":".__LINE__." - ".__METHOD__, $e);
