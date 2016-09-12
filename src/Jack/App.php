@@ -1,35 +1,29 @@
 <?php
 namespace Jack;
 
-class App {
+abstract class App {
 
 	use Jack;
+	use Router;
 
-	public static $framework;
-	public static $assets;
+	protected $_framework;
+	protected $_assets;
 
-	public static function init() {
-		static::$assets = static::createAssetManager();
+	public function __construct() {
+		$this->_assets = static::createAssetManager();
 	}
 
-	public static function routeLookUp($path, $placeholders=array()) {
-		return self::$framework->getContainer()->get('router')->pathFor($path, $placeholders);
+	public function run() {
+		$this->_framework->run();
 	}
 
-	public static function notFound($response, $exception=null) {
-		if (DEBUG && $exception) {
-			var_dump(__FILE__.":".__LINE__." - ".__METHOD__, $exception);
-			exit(0);
-		}
-		return $response->withStatus(404)->write("Not found.");
-	}
+	public function render($path, $args=array()) {
+		$template = static::createTemplate();
+		return $template->render($path, $args);
+	}	
 
-	public static function notAuthorized($response) {
-		return $response->withStatus(403)->write("Not authorized.");
-	}
-
-	public static function userCan($permission) {
-		return true;
+	public function routeLookUp($path, $placeholders=array()) {
+		return $this->_framework->getContainer()->get('router')->pathFor($path, $placeholders);
 	}
 
 	public static function createTemplate() {
@@ -40,22 +34,28 @@ class App {
 		return new AssetManager();
 	}	
 	
-	public static function render($path, $args=array()) {
-		$template = static::createTemplate();
-		return $template->render($path, $args);
-	}	
-
-	public static function initAssets() {
-		$factory = new AssetFactory(APP_DIR.'/assets');
-		$am = new AssetManager();
-		$factory->setAssetManager($am);
-		$factory->setDebug(DEBUG);
-		$factory->addWorker(new CacheBustingWorker());
-		self::$assets = $factory;
+	public function assetUrl($path) {
+		return $this->_assets->url($path);
 	}
 
-	public static function loadRoutes($dir, $appClassName='Jack\\App') {
-		new Router($dir, $appClassName);
+	public function url($path) {
+		return sprintf('%s/%s', PUBLIC_ROOT === '/' ? '' : PUBLIC_ROOT, $path);
 	}
-	
+
+	public function notFound($response, $exception=null) {
+		if (DEBUG && $exception) {
+			var_dump(__FILE__.":".__LINE__." - ".__METHOD__, $exception);
+			exit(0);
+		}
+		return $response->withStatus(404)->write("Not found.");
+	}
+
+	public function notAuthorized($response) {
+		return $response->withStatus(403)->write("Not authorized.");
+	}
+
+	public static function userCan($permission) {
+		return true;
+	}
+
 }

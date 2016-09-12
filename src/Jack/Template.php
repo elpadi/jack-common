@@ -6,13 +6,18 @@ abstract class Template {
 	abstract protected static function getTemplateDir();
 
 	public function __construct() {
+		global $app;
 		$this->loader = new \Twig_Loader_Filesystem(static::getTemplateDir());
 		$this->twig = new \Twig_Environment($this->loader, array(
 			'debug' => DEBUG,
 			'cache' => DEBUG ? false : JACK_DIR.'/cache/twig',
 		));
-		$this->twig->addExtension(new \Umpirsky\Twig\Extension\PhpFunctionExtension());
-		$this->twig->addFunction(new \Twig_SimpleFunction('urlFor', ['\Jack\App','routeLookUp']));
+		$this->twig->addFunction(new \Twig_SimpleFunction('php', function($fn) { return call_user_func_array($fn, array_slice(func_get_args(), 1)); }));
+		$this->twig->addFunction(new \Twig_SimpleFunction('urlFor', [$app, 'routeLookUp']));
+		$this->twig->addFilter(new \Twig_SimpleFilter('url', [$app, 'url']));
+		$this->twig->addFilter(new \Twig_SimpleFilter('asset_url', [$app, 'assetUrl']));
+		$this->twig->addFilter(new \Twig_SimpleFilter('pluck', '\Functional\pluck'));
+		$this->twig->addFilter(new \Twig_SimpleFilter('ordinal_sup', function($s) { return preg_replace('/([0-9])(st|nd|rd|th)/', '$1<sup>$2</sup>', $s); }));
 		$this->twig->addGlobal('DEBUG', DEBUG);
 	}
 
