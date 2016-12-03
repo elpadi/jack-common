@@ -5,6 +5,14 @@ abstract class Template {
 
 	abstract protected static function getTemplateDir();
 
+	public static function includes($haystack, $needle) {
+		switch ($htype = gettype($haystack)) {
+		case 'string': return strpos($haystack, $needle) !== FALSE;
+		case 'array': return in_array($needle, $haystack);
+		}
+		throw new \InvalidArgumentException("Cannot look in value of type '$htype'.");
+	}
+
 	public function __construct() {
 		global $app;
 		$this->loader = new \Twig_Loader_Filesystem(static::getTemplateDir());
@@ -18,6 +26,8 @@ abstract class Template {
 		$this->twig->addFilter(new \Twig_SimpleFilter('asset_url', [$app, 'assetUrl']));
 		$this->twig->addFilter(new \Twig_SimpleFilter('pluck', '\Functional\pluck'));
 		$this->twig->addFilter(new \Twig_SimpleFilter('ordinal_sup', function($s) { return preg_replace('/([0-9])(st|nd|rd|th)/', '$1<sup>$2</sup>', $s); }));
+		$this->twig->addFilter(new \Twig_SimpleFilter('slug', function($s) { return trim(preg_replace('/[^a-z0-9]/', '-', trim(strtolower($s))), '-'); }));
+		$this->twig->addFilter(new \Twig_SimpleFilter('has', [__CLASS__, 'includes']));
 		$this->twig->addGlobal('DEBUG', DEBUG);
 	}
 
