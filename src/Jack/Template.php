@@ -25,7 +25,7 @@ abstract class Template {
 		$this->twig->addFilter(new \Twig_SimpleFilter('url', [$app, 'url']));
 		$this->twig->addFilter(new \Twig_SimpleFilter('asset_url', [$app, 'assetUrl']));
 		$this->twig->addFilter(new \Twig_SimpleFilter('image_url', [$app, 'imageUrl']));
-		$this->twig->addFilter(new \Twig_SimpleFilter('srcset', function($s) { return implode(', ', Images::responsiveImageSrcset($s)); }));
+		$this->twig->addFilter(new \Twig_SimpleFilter('srcset', function($s, $maxSize='original') { return implode(', ', Images::responsiveImageSrcset($s, $maxSize)); }));
 		$this->twig->addFilter(new \Twig_SimpleFilter('pluck', '\Functional\pluck'));
 		$this->twig->addFilter(new \Twig_SimpleFilter('ordinal_sup', function($s) { return preg_replace('/([0-9])(st|nd|rd|th)/', '$1<sup>$2</sup>', $s); }));
 		$this->twig->addFilter(new \Twig_SimpleFilter('slug', function($s) { return trim(preg_replace('/[^a-z0-9]/', '-', trim(strtolower($s))), '-'); }));
