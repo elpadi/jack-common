@@ -18,7 +18,8 @@
 		"lstrojny/functional-php": "~1.0",
 		"slim/slim": "^3.0",
 		"symfony/finder": "~3.0",
-		"twig/twig": "~1.0"
+		"twig/twig": "~1.0",
+		"imagine/imagine": "^0.6.3"
 	},
 	"autoload": {
 		"psr-4": {

@@ -13,10 +13,7 @@ abstract class AssetManager {
 	}
 
 	public static function url($path) {
-		if (DEBUG) return sprintf('%s/%s', static::getPublicPath(), $path);
-		else {
-			trigger_error("Asset building not implemented.");
-		}
+		return sprintf('%s/%s', static::getPublicPath(), $path);
 	}
 
 }
