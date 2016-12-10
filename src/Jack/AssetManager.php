@@ -3,9 +3,9 @@ namespace Jack;
 
 abstract class AssetManager {
 
-	abstract protected static function getAssetsDir();
-	abstract protected static function getPublicDir();
-	abstract protected static function getPublicPath();
+	protected static function getAssetsDir() {}
+	protected static function getPublicDir() {}
+	protected static function getPublicPath() {}
 
 	protected static $factory;
 
