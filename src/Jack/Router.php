@@ -3,9 +3,9 @@ namespace Jack;
 
 use \Symfony\Component\Finder\Finder;
 
-trait Router {
+class Router {
 
-	protected function routeDefaults($route, $group) {
+	protected static function routeDefaults($route, $group) {
 		if (!isset($route['method'])) $route['method'] = 'get';
 		if (!isset($route['vars'])) $route['vars'] = array();
 		$route['template'] = substr($group['path'], 1) . (!isset($route['path']) || strpos($route['path'], '{') !== FALSE ? (strlen($group['path']) > 1 ? '/' : '') . $route['name'] : $route['path']);
@@ -13,33 +13,29 @@ trait Router {
 		return $route;
 	}
 
-	protected function loadRoutes($dir) {
+	public function loadRoutes($dir) {
 		$routes = array();
 		$finder = new Finder();
 		$finder->files()->in($dir);
 		foreach ($finder as $file) require($file->getRealpath());
-		foreach ($routes as $group) {
-			$this->_routeGroup = $group;
-			$app_group = $this->_framework->group($group['path'], [$this, 'parseRouteGroup']);
+		$this->routes = $routes;
+	}
+
+	public function enableRoutes() {
+		$router = $this;
+		foreach ($this->routes as $group) {
+			$app_group = App::framework()->group($group['path'], \Closure::bind(function() use ($router, $group) { return $router->parseRouteGroup($group); }, $this));
 			if (isset($group['middleware'])) foreach ($group['middleware'] as $fn) $app_group->add($fn);
 		}
 	}
 
-	public function createAction($request, $response, $args=[]) {
-		return new Action($request, $response, $args);
-	}	
-	
-	public function parseRouteGroup() {
-		$group = $this->_routeGroup;
+	public function parseRouteGroup($group) {
 		foreach ($group['routes'] as $route) {
 			$route = $this->routeDefaults($route, $group);
 			$app_route = call_user_func(
-				[$this->_framework, $route['method']],
+				[App::framework(), $route['method']],
 				$route['path'],
-				isset($route['action']) && is_string($route['action']) ? function($request, $response) use ($route) {
-					global $app;
-					return $response->withRedirect($app->routeLookup($route['action'], isset($route['args']) ? $route['args'] : []));
-				} : [$this, 'createAction']
+				function($request, $response, $args) use ($route) { return Action::create($route)->run($request, $response, $args); }
 			);
 			if (isset($route['name'])) $app_route->setName($route['name']);
 		}

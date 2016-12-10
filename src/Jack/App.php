@@ -4,17 +4,30 @@ namespace Jack;
 abstract class App {
 
 	use Jack;
-	use Router;
 
 	protected $_framework;
 	protected $_assets;
+	protected $_router;
 
 	public function __construct() {
+		clearstatcache();
 		$this->_assets = static::createAssetManager();
+		$this->_router = new Router();
+	}
+
+	public static function namespaces() {
+		global $app;
+		$parts = explode('\\', get_class($app));
+		return [$parts[0], 'Jack'];
+	}
+
+	public static function framework() {
+		global $app;
+		return $app->_framework;
 	}
 
 	public function run() {
-		$this->_framework->run();
+		static::framework()->run();
 	}
 
 	public function render($path, $args=array()) {
@@ -23,7 +36,7 @@ abstract class App {
 	}	
 
 	public function routeLookUp($path, $placeholders=array()) {
-		return $this->_framework->getContainer()->get('router')->pathFor($path, $placeholders);
+		return static::framework()->getContainer()->get('router')->pathFor($path, $placeholders);
 	}
 
 	public static function createTemplate() {
