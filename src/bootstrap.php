@@ -10,4 +10,4 @@ defined('DEBUG') or define('DEBUG', isset($_ENV['debug']) ? ($_ENV['debug'] === 
 ini_set('log_errors','on');
 ini_set('error_log', JACK_DIR.'/log/php_errors.log');
 ini_set('display_errors', DEBUG ? 'on' : 'off');
-error_reporting(DEBUG ? E_ERROR | E_WARNING | E_PARSE | E_NOTICE : 0);
+error_reporting(DEBUG ? E_ALL : 0);
