@@ -7,3 +7,4 @@ src/Jack/Propel
 website
 shopify
 mailer
+cache/*

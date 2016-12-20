@@ -35,8 +35,13 @@ class Page {
 		return $response->write($this->render());
 	}
 
+	protected function api($response) {
+		return $response->withHeader('Content-type', 'application/json')->write(json_encode($this->data));
+	}
+
 	public function run($request, $response, $args) {
 		$this->fetchData($args, $request);
+		if ($request->getContentType() === 'application/json') return $this->api($response);
 		$this->data = array_merge($this->data, [
 			'META_TITLE' => $this->metaTitle(),
 			'META_DESCRIPTION' => $this->metaDescription(),

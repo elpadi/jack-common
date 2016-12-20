@@ -13,6 +13,13 @@ abstract class App {
 		clearstatcache();
 		$this->_assets = static::createAssetManager();
 		$this->_router = new Router();
+		$this->imageManager = new Images\Manager();
+	}
+
+	public static function instance() {
+		global $app;
+		if ($app) return $app;
+		throw new \BadMethodCallException("Instance does not exist.");
 	}
 
 	public static function namespaces() {

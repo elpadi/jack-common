@@ -24,11 +24,11 @@ abstract class Template {
 		$this->twig->addFunction(new \Twig_SimpleFunction('urlFor', [$app, 'routeLookUp']));
 		$this->twig->addFilter(new \Twig_SimpleFilter('url', [$app, 'url']));
 		$this->twig->addFilter(new \Twig_SimpleFilter('asset_url', [$app, 'assetUrl']));
-		$this->twig->addFilter(new \Twig_SimpleFilter('image_url', [$app, 'imageUrl']));
-		$this->twig->addFilter(new \Twig_SimpleFilter('srcset', function($s, $maxSize='original') { return implode(', ', Images::responsiveImageSrcset($s, $maxSize)); }));
+		$this->twig->addFilter(new \Twig_SimpleFilter('image_url', [$app->imageManager, 'imageUrl']));
+		$this->twig->addFilter(new \Twig_SimpleFilter('srcset', [$app->imageManager, 'responsiveImageSrcset']));
 		$this->twig->addFilter(new \Twig_SimpleFilter('pluck', '\Functional\pluck'));
 		$this->twig->addFilter(new \Twig_SimpleFilter('ordinal_sup', function($s) { return preg_replace('/([0-9])(st|nd|rd|th)/', '$1<sup>$2</sup>', $s); }));
-		$this->twig->addFilter(new \Twig_SimpleFilter('slug', function($s) { return trim(preg_replace('/[^a-z0-9]/', '-', trim(strtolower($s))), '-'); }));
+		$this->twig->addFilter(new \Twig_SimpleFilter('slug', function($s) { return trim(preg_replace('/[^a-z0-9]/', '-', trim(str_replace('&', 'and', strtolower($s)))), '-'); }));
 		$this->twig->addFilter(new \Twig_SimpleFilter('has', [__CLASS__, 'includes']));
 		$this->twig->addFilter(new \Twig_SimpleFilter('css', [__CLASS__, 'css']));
 		$this->twig->addFilter(new \Twig_SimpleFilter('js', [__CLASS__, 'js']));
