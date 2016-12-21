@@ -25,7 +25,7 @@ class Manager {
 	}
 
 	protected function resizedPath($image, $dims) {
-		$filePath = static::hashToPath(md5(serialize([$path, $dims->getWidth(), $dims->getHeight()])), F\last(explode('.', $path)));
+		$filePath = static::hashToPath(md5(serialize([$image->path, $dims->getWidth(), $dims->getHeight()])), F\last(explode('.', $image->path)));
 		if (!file_exists($filePath)) {
 			$variant = new Variant($image, $dims);
 			$variant->save($filePath);
@@ -45,7 +45,7 @@ class Manager {
 			$dims = $image->resizedDims($size);
 			$srcset[] = sprintf('%s %dw', static::filePathToUrl($this->resizedPath($image, $dims)), $dims->getWidth());
 		}
-		return $srcset;
+		return implode(', ', $srcset);
 	}
 
 	protected function getImageMeta($path) {
