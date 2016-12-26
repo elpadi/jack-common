@@ -42,7 +42,7 @@ class Page {
 	public function run($request, $response, $args) {
 		$this->fetchData($args, $request);
 		if ($request->getContentType() === 'application/json') return $this->api($response);
-		$this->data = array_merge($this->data, [
+		$this->data = array_merge(isset($this->data) ? $this->data : [], [
 			'META_TITLE' => $this->metaTitle(),
 			'META_DESCRIPTION' => $this->metaDescription(),
 		]);
