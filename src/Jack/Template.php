@@ -35,13 +35,13 @@ abstract class Template {
 		$this->twig->addGlobal('DEBUG', DEBUG);
 	}
 
-	public static function css($paths, $media='all') {
+	public static function css($paths, $prefix='src/css', $media='all') {
 		global $app;
 		if (!DEBUG) {
 			throw new \Exception("Need to join and minify assets.");
 		}
-		return implode(' ', array_map(function($path) use ($media, $app) {
-			return sprintf('<link rel="stylesheet" href="%s" media="%s">', $app->assetUrl(sprintf('src/css/%s.css', $path)), $media);
+		return implode(' ', array_map(function($path) use ($prefix, $media, $app) {
+			return sprintf('<link rel="stylesheet" href="%s" media="%s">', $app->assetUrl(sprintf('%s/%s.css', $prefix, $path)), $media);
 		}, $paths));
 	}
 
