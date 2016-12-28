@@ -31,6 +31,13 @@ class Page {
 		return $app->notFound($response);
 	}
 
+	protected function assets() {
+		return [
+			'css' => ['pages/'.$this->route['name']],
+			'js' => ['pages/'.$this->route['name']],
+		];
+	}
+
 	protected function finalize($response) {
 		return $response->write($this->render());
 	}
@@ -42,6 +49,7 @@ class Page {
 	public function run($request, $response, $args) {
 		$this->fetchData($args, $request);
 		if ($request->getContentType() === 'application/json') return $this->api($response);
+		$this->data['assets'] = $this->assets();
 		$this->data = array_merge(isset($this->data) ? $this->data : [], [
 			'META_TITLE' => $this->metaTitle(),
 			'META_DESCRIPTION' => $this->metaDescription(),
