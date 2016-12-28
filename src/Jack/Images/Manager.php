@@ -63,7 +63,7 @@ class Manager {
 		$cacheItem = $this->metaCache->getItem($cacheKey);
 		if ($cacheItem->isHit()) $image->setMeta($cacheItem->get());
 		else {
-			$meta = $this->getImageMeta();
+			$meta = $this->getImageMeta($path);
 			$cacheItem->set($meta);
 			$this->metaCache->save($cacheItem);
 			$image->setMeta($meta);
