@@ -16,4 +16,24 @@ abstract class AssetManager {
 		return sprintf('%s/%s', static::getPublicPath(), $path);
 	}
 
+	public static function css($paths, $prefix='src/css', $media='all') {
+		global $app;
+		if (!DEBUG) {
+			throw new \Exception("Need to join and minify assets.");
+		}
+		return implode(' ', array_map(function($path) use ($prefix, $media, $app) {
+			return sprintf('<link rel="stylesheet" href="%s" media="%s">', $app->assetUrl(sprintf('%s/%s.css', $prefix, $path)), $media);
+		}, $paths));
+	}
+
+	public static function js($paths, $prefix='src/js') {
+		global $app;
+		if (!DEBUG) {
+			throw new \Exception("Need to join and minify assets.");
+		}
+		return implode(' ', array_map(function($path) use ($app, $prefix) {
+			return sprintf('<script src="%s"></script>', $app->assetUrl(sprintf('%s/%s.js', $prefix, $path)));
+		}, $paths));
+	}
+
 }

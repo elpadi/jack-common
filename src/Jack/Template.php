@@ -30,34 +30,13 @@ abstract class Template {
 		$this->twig->addFilter(new \Twig_SimpleFilter('ordinal_sup', function($s) { return preg_replace('/([0-9])(st|nd|rd|th)/', '$1<sup>$2</sup>', $s); }));
 		$this->twig->addFilter(new \Twig_SimpleFilter('slug', function($s) { return trim(preg_replace('/[^a-z0-9]/', '-', trim(str_replace('&', 'and', strtolower($s)))), '-'); }));
 		$this->twig->addFilter(new \Twig_SimpleFilter('has', [__CLASS__, 'includes']));
-		$this->twig->addFilter(new \Twig_SimpleFilter('css', [__CLASS__, 'css']));
-		$this->twig->addFilter(new \Twig_SimpleFilter('js', [__CLASS__, 'js']));
+		$this->twig->addFilter(new \Twig_SimpleFilter('css', [__NAMESPACE__.'\\AssetManager', 'css']));
+		$this->twig->addFilter(new \Twig_SimpleFilter('js', [__NAMESPACE__.'\\AssetManager', 'js']));
 		$this->twig->addGlobal('DEBUG', DEBUG);
-	}
-
-	public static function css($paths, $prefix='src/css', $media='all') {
-		global $app;
-		if (!DEBUG) {
-			throw new \Exception("Need to join and minify assets.");
-		}
-		return implode(' ', array_map(function($path) use ($prefix, $media, $app) {
-			return sprintf('<link rel="stylesheet" href="%s" media="%s">', $app->assetUrl(sprintf('%s/%s.css', $prefix, $path)), $media);
-		}, $paths));
-	}
-
-	public static function js($paths, $prefix='src/js') {
-		global $app;
-		if (!DEBUG) {
-			throw new \Exception("Need to join and minify assets.");
-		}
-		return implode(' ', array_map(function($path) use ($app, $prefix) {
-			return sprintf('<script src="%s"></script>', $app->assetUrl(sprintf('%s/%s.js', $prefix, $path)));
-		}, $paths));
 	}
 
 	public function render($path, $vars) {
 		try {
-			$this->twig->addGlobal('MINIFY_SCRIPTS', !DEBUG);
 			$this->twig->addGlobal('TEMPLATE_PATH', str_replace('/', ' ', $path));
 			$this->twig->addGlobal('URL_PATH', str_replace('/', ' ', substr($_SERVER['REQUEST_URI'], strlen(PUBLIC_ROOT))));
 			$content = $this->twig->render($path === 'default' ? "$path.twig" : "parts/$path.twig", $vars);
