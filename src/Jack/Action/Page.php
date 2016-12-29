@@ -18,7 +18,9 @@ class Page {
 	}
 
 	protected function templatePath() {
-		return 'default';
+		global $app;
+		$path = "pages/{$this->route['name']}";
+		return $app->templateManager->exists($path) ? $path : 'default';
 	}
 
 	protected function render() {

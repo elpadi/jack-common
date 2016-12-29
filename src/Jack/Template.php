@@ -13,7 +13,7 @@ abstract class Template {
 		throw new \InvalidArgumentException("Cannot look in value of type '$htype'.");
 	}
 
-	public function __construct() {
+	public function initTwig() {
 		global $app;
 		$this->loader = new \Twig_Loader_Filesystem(static::getTemplateDir());
 		$this->twig = new \Twig_Environment($this->loader, array(
@@ -35,11 +35,16 @@ abstract class Template {
 		$this->twig->addGlobal('DEBUG', DEBUG);
 	}
 
+	public function exists($path) {
+		return is_readable(static::getTemplateDir()."/$path.twig");
+	}
+
 	public function render($path, $vars) {
 		try {
+			$this->initTwig();
 			$this->twig->addGlobal('TEMPLATE_PATH', str_replace('/', ' ', $path));
 			$this->twig->addGlobal('URL_PATH', str_replace('/', ' ', substr($_SERVER['REQUEST_URI'], strlen(PUBLIC_ROOT))));
-			$content = $this->twig->render($path === 'default' ? "$path.twig" : "parts/$path.twig", $vars);
+			$content = $this->twig->render("$path.twig", $vars);
 		}
 		catch (\Exception $e) {
 			var_dump(__FILE__.":".__LINE__." - ".__METHOD__, $e);

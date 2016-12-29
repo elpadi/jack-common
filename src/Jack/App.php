@@ -8,12 +8,14 @@ abstract class App {
 	protected $_framework;
 	protected $_assets;
 	protected $_router;
+	public $templateManager;
 
 	public function __construct() {
 		clearstatcache();
 		$this->_assets = static::createAssetManager();
 		$this->_router = new Router();
 		$this->imageManager = new Images\Manager();
+		$this->templateManager = static::createTemplate();
 	}
 
 	public static function instance() {
@@ -38,8 +40,7 @@ abstract class App {
 	}
 
 	public function render($path, $args=array()) {
-		$template = static::createTemplate();
-		return $template->render($path, $args);
+		return $this->templateManager->render($path, $args);
 	}	
 
 	public function routeLookUp($path, $placeholders=array()) {
