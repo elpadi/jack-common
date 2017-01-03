@@ -7,7 +7,7 @@ class Router {
 
 	protected static function routeDefaults($route, $group) {
 		if (!isset($route['method'])) $route['method'] = 'get';
-		if (!isset($route['vars'])) $route['vars'] = array();
+		if (!isset($route['args'])) $route['args'] = array();
 		$route['template'] = substr($group['path'], 1) . (!isset($route['path']) || strpos($route['path'], '{') !== FALSE ? (strlen($group['path']) > 1 ? '/' : '') . $route['name'] : $route['path']);
 		if (!isset($route['path'])) $route['path'] = (strlen($group['path']) > 1 ? '/' : '') . $route['name'];
 		return $route;
