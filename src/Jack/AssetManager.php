@@ -12,6 +12,15 @@ abstract class AssetManager {
 	public function __construct() {
 	}
 
+	public static function background($name) {
+		$url = App::instance()->assetUrl("backgrounds/$name.jpg");
+		return [
+			'src' => App::instance()->imageManager->imageUrl($url, 'large'),
+			'srcset' => App::instance()->imageManager->responsiveImageSrcset($url, ['large','double']),
+		];
+		return sprintf('%s/%s', static::getPublicPath(), $path);
+	}
+
 	public static function url($path) {
 		return sprintf('%s/%s', static::getPublicPath(), $path);
 	}
