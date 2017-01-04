@@ -35,7 +35,7 @@ class Router {
 			$app_route = call_user_func(
 				[App::framework(), $route['method']],
 				$route['path'],
-				function($request, $response, $args) use ($route) { return Action::create($route)->run($request, $response, $args); }
+				function($request, $response, $args) use ($route, $group) { return Action::create($route, $group)->run($request, $response, $args); }
 			);
 			if (isset($route['name'])) $app_route->setName($route['name']);
 		}
