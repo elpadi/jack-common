@@ -8,6 +8,8 @@ use Imagine\Image\Box;
 
 class Manager {
 
+	public $metaCache;
+
 	public function __construct() {
 		$this->metaCache = new ProxyAdapter(new \Jack\Cache\SingleJsonPool('image-meta'));
 	}
