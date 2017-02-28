@@ -10,5 +10,8 @@ ini_set('error_log', JACK_DIR.'/log/php_errors.log');
 ini_set('display_errors', DEBUG ? 'on' : 'off');
 error_reporting(DEBUG ? E_ALL : 0);
 
+if (!isset($_ENV['CSS_VERSION'])) $_ENV['CSS_VERSION'] = '1';
+if (!isset($_ENV['JS_VERSION'])) $_ENV['JS_VERSION'] = '1';
+
 require(JACK_DIR.'/vendor/autoload.php');
 
