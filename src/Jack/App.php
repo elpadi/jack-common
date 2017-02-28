@@ -63,6 +63,10 @@ abstract class App {
 		return sprintf('%s/%s', PUBLIC_ROOT === '/' ? '' : PUBLIC_ROOT, $path);
 	}
 
+	public function urlToSource($url_path) {
+		return file_get_contents(PUBLIC_ROOT_DIR.$url_path);
+	}
+
 	public function notFound($response, $exception=null) {
 		if (DEBUG && $exception) {
 			var_dump(__FILE__.":".__LINE__." - ".__METHOD__, $exception);

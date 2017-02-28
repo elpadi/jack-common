@@ -24,6 +24,7 @@ abstract class Template {
 		$this->twig->addFunction(new \Twig_SimpleFunction('urlFor', [$app, 'routeLookUp']));
 		$this->twig->addFilter(new \Twig_SimpleFilter('url', [$app, 'url']));
 		$this->twig->addFilter(new \Twig_SimpleFilter('asset_url', [$app, 'assetUrl']));
+		$this->twig->addFilter(new \Twig_SimpleFilter('source', [$app, 'urlToSource']));
 		$this->twig->addFilter(new \Twig_SimpleFilter('image_url', [$app->imageManager, 'imageUrl']));
 		$this->twig->addFilter(new \Twig_SimpleFilter('srcset', [$app->imageManager, 'responsiveImageSrcset']));
 		$this->twig->addFilter(new \Twig_SimpleFilter('pluck', '\Functional\pluck'));
