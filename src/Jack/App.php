@@ -67,12 +67,8 @@ abstract class App {
 		return file_get_contents(PUBLIC_ROOT_DIR.$url_path);
 	}
 
-	public function notFound($response, $exception=null) {
-		if (DEBUG && $exception) {
-			var_dump(__FILE__.":".__LINE__." - ".__METHOD__, $exception);
-			exit(0);
-		}
-		return $response->withStatus(404)->write("Not found.");
+	public function errorResponse($response, $exception) {
+		return $response->withStatus($exception->getCode())->write($this->render('default', ['content' => sprintf('<h2>%d</h2><p>%s</p>', $exception->getCode(), $exception->getMessage())]));
 	}
 
 	public function notAuthorized($response) {

@@ -28,11 +28,6 @@ class Page {
 		return $app->render($this->templatePath(), $this->data);
 	}
 
-	protected static function notFound($response) {
-		global $app;
-		return $app->notFound($response);
-	}
-
 	protected function assets() {
 		return [
 			'css' => ['pages/'.$this->route['name']],
@@ -49,7 +44,13 @@ class Page {
 	}
 
 	public function run($request, $response, $args) {
-		$this->fetchData($args, $request);
+		global $app;
+		try {
+			$this->fetchData($args, $request);
+		}
+		catch (\Exception $e) {
+			return $app->errorResponse($response, $e);
+		}
 		if ($request->getContentType() === 'application/json') return $this->api($response);
 		$this->data['assets'] = $this->assets();
 		$this->data = array_merge(isset($this->data) ? $this->data : [], [

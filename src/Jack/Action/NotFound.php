@@ -5,7 +5,7 @@ class NotFound {
 
 	public function run($request, $response, $args) {
 		global $app;
-		return $app->notFound($response);
+		return $app->errorResponse($response, new \Exception('Page not found.', 404));
 	}
 
 }
