@@ -21,13 +21,20 @@ class Page {
 		return sprintf('%s://%s%s', isset($_SERVER['HTTPS']) ? "https" : "http", $_SERVER['HTTP_HOST'], $uri ? $uri : $_SERVER['REQUEST_URI']);
 	}
 
-	protected function ogTags() {
+	protected function graphTags() {
 		return [
-			'title' => str_replace(' | Jack Magazine', '', $this->metaTitle()),
-			'description' => $this->metaDescription(),
-			'image' => '',
-			'type' => 'website',
-			'url' => $this->canonicalUrl(),
+			'OPEN_GRAPH' => [
+				'title' => str_replace(' | Jack Magazine', '', $this->metaTitle()),
+				'description' => $this->metaDescription(),
+				'image' => '',
+				'type' => 'website',
+				'url' => $this->canonicalUrl(),
+			],
+			'TWITTER_CARD' => [
+				'card' => 'summary',
+				'site' => '@thejackmag',
+				'creator' => '@thejackmag',
+			],
 		];
 	}
 
@@ -71,7 +78,7 @@ class Page {
 			'META_TITLE' => $this->metaTitle(),
 			'META_DESCRIPTION' => $this->metaDescription(),
 			'CANONICAL_URL' => $this->canonicalUrl(),
-			'OG_TAGS' => $this->ogTags(),
+			'GRAPH_TAGS' => $this->graphTags(),
 		]);
 		return $this->finalize($response);
 	}
