@@ -17,6 +17,20 @@ class Page {
 		return cockpit('collections:findOne', 'pagedescriptions', ['name' => $this->route['name']]);
 	}
 
+	protected function canonicalUrl($uri='') {
+		return sprintf('%s://%s%s', isset($_SERVER['HTTPS']) ? "https" : "http", $_SERVER['HTTP_HOST'], $uri ? $uri : $_SERVER['REQUEST_URI']);
+	}
+
+	protected function ogTags() {
+		return [
+			'title' => str_replace(' | Jack Magazine', '', $this->metaTitle()),
+			'description' => $this->metaDescription(),
+			'image' => '',
+			'type' => 'website',
+			'url' => $this->canonicalUrl(),
+		];
+	}
+
 	protected function templatePath() {
 		global $app;
 		$path = "pages/{$this->route['name']}";
@@ -56,6 +70,8 @@ class Page {
 		$this->data = array_merge(isset($this->data) ? $this->data : [], [
 			'META_TITLE' => $this->metaTitle(),
 			'META_DESCRIPTION' => $this->metaDescription(),
+			'CANONICAL_URL' => $this->canonicalUrl(),
+			'OG_TAGS' => $this->ogTags(),
 		]);
 		return $this->finalize($response);
 	}
