@@ -34,6 +34,7 @@ abstract class Template {
 		$this->twig->addFilter(new \Twig_SimpleFilter('css', [__NAMESPACE__.'\\AssetManager', 'css']));
 		$this->twig->addFilter(new \Twig_SimpleFilter('js', [__NAMESPACE__.'\\AssetManager', 'js']));
 		$this->twig->addGlobal('DEBUG', DEBUG);
+		$this->twig->addGlobal('SERVER', $_SERVER);
 	}
 
 	public function exists($path) {
