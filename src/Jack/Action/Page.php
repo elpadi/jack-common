@@ -14,7 +14,8 @@ class Page {
 	}
 
 	protected function metaDescription() {
-		return cockpit('collections:findOne', 'pagedescriptions', ['name' => $this->route['name']]);
+		$entry = cockpit('collections:findOne', 'pagedescriptions', ['name' => $this->route['name']]);
+		return $entry ? $entry['content'] : '';
 	}
 
 	protected function canonicalUrl($uri='') {
@@ -70,6 +71,10 @@ class Page {
 			$this->fetchData($args, $request);
 		}
 		catch (\Exception $e) {
+			if (DEBUG) {
+				var_dump(__FILE__.":".__LINE__." - ".__METHOD__, $e);
+				exit(0);
+			}
 			return $app->errorResponse($response, $e);
 		}
 		if ($request->getContentType() === 'application/json') return $this->api($response);

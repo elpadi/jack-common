@@ -4,22 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "189773a9aab10e89f29d205f5609d285",
     "content-hash": "e9be1eaaae06628e1f32cb286aa38b1f",
     "packages": [
         {
             "name": "container-interop/container-interop",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/container-interop/container-interop.git",
-                "reference": "fc08354828f8fd3245f77a66b9e23a6bca48297e"
+                "reference": "79cbf1341c22ec75643d841642dd5d6acd83bdb8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/container-interop/container-interop/zipball/fc08354828f8fd3245f77a66b9e23a6bca48297e",
-                "reference": "fc08354828f8fd3245f77a66b9e23a6bca48297e",
+                "url": "https://api.github.com/repos/container-interop/container-interop/zipball/79cbf1341c22ec75643d841642dd5d6acd83bdb8",
+                "reference": "79cbf1341c22ec75643d841642dd5d6acd83bdb8",
                 "shasum": ""
+            },
+            "require": {
+                "psr/container": "^1.0"
             },
             "type": "library",
             "autoload": {
@@ -32,7 +34,8 @@
                 "MIT"
             ],
             "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
-            "time": "2014-12-30 15:22:37"
+            "homepage": "https://github.com/container-interop/container-interop",
+            "time": "2017-02-14T19:40:03+00:00"
         },
         {
             "name": "imagine/imagine",
@@ -89,27 +92,27 @@
                 "image manipulation",
                 "image processing"
             ],
-            "time": "2015-09-19 16:54:05"
+            "time": "2015-09-19T16:54:05+00:00"
         },
         {
             "name": "lstrojny/functional-php",
-            "version": "dev-master",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lstrojny/functional-php.git",
-                "reference": "2d4731b48e7d7a0abaaa94bf94c45cb3746be683"
+                "reference": "f2626ab8c8c3b7330a1b3ca52a0e3fefed84cf84"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lstrojny/functional-php/zipball/2d4731b48e7d7a0abaaa94bf94c45cb3746be683",
-                "reference": "2d4731b48e7d7a0abaaa94bf94c45cb3746be683",
+                "url": "https://api.github.com/repos/lstrojny/functional-php/zipball/f2626ab8c8c3b7330a1b3ca52a0e3fefed84cf84",
+                "reference": "f2626ab8c8c3b7330a1b3ca52a0e3fefed84cf84",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.6.0"
+                "php": "~7"
             },
             "require-dev": {
-                "phpunit/phpunit": ">=5.4"
+                "phpunit/phpunit": "~6"
             },
             "type": "library",
             "extra": {
@@ -129,10 +132,13 @@
                     "src/Functional/CompareObjectHashOn.php",
                     "src/Functional/Compose.php",
                     "src/Functional/Contains.php",
+                    "src/Functional/Curry.php",
+                    "src/Functional/CurryN.php",
                     "src/Functional/Difference.php",
                     "src/Functional/DropFirst.php",
                     "src/Functional/DropLast.php",
                     "src/Functional/Each.php",
+                    "src/Functional/ErrorToException.php",
                     "src/Functional/Every.php",
                     "src/Functional/False.php",
                     "src/Functional/Falsy.php",
@@ -179,12 +185,14 @@
                     "src/Functional/Some.php",
                     "src/Functional/Sort.php",
                     "src/Functional/Sum.php",
+                    "src/Functional/SuppressError.php",
                     "src/Functional/Tail.php",
                     "src/Functional/True.php",
                     "src/Functional/Truthy.php",
                     "src/Functional/Unique.php",
                     "src/Functional/With.php",
-                    "src/Functional/Zip.php"
+                    "src/Functional/Zip.php",
+                    "src/Functional/ZipAll.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -206,20 +214,20 @@
             "keywords": [
                 "functional"
             ],
-            "time": "2016-09-04 19:36:45"
+            "time": "2017-02-19T11:47:13+00:00"
         },
         {
             "name": "nikic/fast-route",
-            "version": "v1.0.1",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/FastRoute.git",
-                "reference": "8ea928195fa9b907f0d6e48312d323c1a13cc2af"
+                "reference": "b5f95749071c82a8e0f58586987627054400cdf6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/FastRoute/zipball/8ea928195fa9b907f0d6e48312d323c1a13cc2af",
-                "reference": "8ea928195fa9b907f0d6e48312d323c1a13cc2af",
+                "url": "https://api.github.com/repos/nikic/FastRoute/zipball/b5f95749071c82a8e0f58586987627054400cdf6",
+                "reference": "b5f95749071c82a8e0f58586987627054400cdf6",
                 "shasum": ""
             },
             "require": {
@@ -249,7 +257,7 @@
                 "router",
                 "routing"
             ],
-            "time": "2016-06-12 19:08:51"
+            "time": "2017-01-19T11:35:12+00:00"
         },
         {
             "name": "pimple/pimple",
@@ -257,16 +265,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/silexphp/Pimple.git",
-                "reference": "44515c40a4c4effc53c1e6c0e7158f711473dc98"
+                "reference": "93ec38f1df4d4ad3f0c71bc9273139fa8af29f3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silexphp/Pimple/zipball/44515c40a4c4effc53c1e6c0e7158f711473dc98",
-                "reference": "44515c40a4c4effc53c1e6c0e7158f711473dc98",
+                "url": "https://api.github.com/repos/silexphp/Pimple/zipball/93ec38f1df4d4ad3f0c71bc9273139fa8af29f3e",
+                "reference": "93ec38f1df4d4ad3f0c71bc9273139fa8af29f3e",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "^3.2"
             },
             "type": "library",
             "extra": {
@@ -295,7 +306,7 @@
                 "container",
                 "dependency injection"
             ],
-            "time": "2016-09-10 19:36:25"
+            "time": "2017-03-24 14:13:45"
         },
         {
             "name": "psr/cache",
@@ -342,6 +353,55 @@
                 "psr-6"
             ],
             "time": "2016-10-13 14:48:10"
+        },
+        {
+            "name": "psr/container",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/container.git",
+                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/container/zipball/b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
+                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Container\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common Container Interface (PHP FIG PSR-11)",
+            "homepage": "https://github.com/php-fig/container",
+            "keywords": [
+                "PSR-11",
+                "container",
+                "container-interface",
+                "container-interop",
+                "psr"
+            ],
+            "time": "2017-02-14 16:28:37"
         },
         {
             "name": "psr/http-message",
@@ -441,24 +501,73 @@
             "time": "2016-10-10 12:19:37"
         },
         {
+            "name": "psr/simple-cache",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/simple-cache.git",
+                "reference": "753fa598e8f3b9966c886fe13f370baa45ef0e24"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/simple-cache/zipball/753fa598e8f3b9966c886fe13f370baa45ef0e24",
+                "reference": "753fa598e8f3b9966c886fe13f370baa45ef0e24",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\SimpleCache\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interfaces for simple caching",
+            "keywords": [
+                "cache",
+                "caching",
+                "psr",
+                "psr-16",
+                "simple-cache"
+            ],
+            "time": "2017-01-02 13:31:39"
+        },
+        {
             "name": "slim/slim",
             "version": "3.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/slimphp/Slim.git",
-                "reference": "1dedd2592c4f7e088ee3a87a7936f5df71cb7593"
+                "reference": "d28272231017ae737abeee4b99673cbf29ee4e69"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slimphp/Slim/zipball/1dedd2592c4f7e088ee3a87a7936f5df71cb7593",
-                "reference": "1dedd2592c4f7e088ee3a87a7936f5df71cb7593",
+                "url": "https://api.github.com/repos/slimphp/Slim/zipball/d28272231017ae737abeee4b99673cbf29ee4e69",
+                "reference": "d28272231017ae737abeee4b99673cbf29ee4e69",
                 "shasum": ""
             },
             "require": {
-                "container-interop/container-interop": "^1.1",
+                "container-interop/container-interop": "^1.2",
                 "nikic/fast-route": "^1.0",
                 "php": ">=5.5.0",
                 "pimple/pimple": "^3.0",
+                "psr/container": "^1.0",
                 "psr/http-message": "^1.0"
             },
             "provide": {
@@ -501,14 +610,14 @@
                 }
             ],
             "description": "Slim is a PHP micro framework that helps you quickly write simple yet powerful web applications and APIs",
-            "homepage": "http://slimframework.com",
+            "homepage": "https://slimframework.com",
             "keywords": [
                 "api",
                 "framework",
                 "micro",
                 "router"
             ],
-            "time": "2016-08-14 08:11:00"
+            "time": "2017-05-03 13:59:20"
         },
         {
             "name": "symfony/cache",
@@ -516,21 +625,26 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/cache.git",
-                "reference": "16b647274f0c6e5045284f72125316904b028034"
+                "reference": "a06e18970cadb4de4b118144c1a83db6d216d0ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/cache/zipball/16b647274f0c6e5045284f72125316904b028034",
-                "reference": "16b647274f0c6e5045284f72125316904b028034",
+                "url": "https://api.github.com/repos/symfony/cache/zipball/a06e18970cadb4de4b118144c1a83db6d216d0ea",
+                "reference": "a06e18970cadb4de4b118144c1a83db6d216d0ea",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.5.9",
                 "psr/cache": "~1.0",
-                "psr/log": "~1.0"
+                "psr/log": "~1.0",
+                "psr/simple-cache": "^1.0"
+            },
+            "conflict": {
+                "symfony/var-dumper": "<3.3"
             },
             "provide": {
-                "psr/cache-implementation": "1.0"
+                "psr/cache-implementation": "1.0",
+                "psr/simple-cache-implementation": "1.0"
             },
             "require-dev": {
                 "cache/integration-tests": "dev-master",
@@ -569,13 +683,13 @@
                     "homepage": "https://symfony.com/contributors"
                 }
             ],
-            "description": "Symfony implementation of PSR-6",
+            "description": "Symfony Cache component with PSR-6, PSR-16, and tags",
             "homepage": "https://symfony.com",
             "keywords": [
                 "caching",
                 "psr6"
             ],
-            "time": "2016-12-13 15:32:21"
+            "time": "2017-04-19 09:39:36"
         },
         {
             "name": "symfony/finder",
@@ -583,12 +697,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "ad1b54ed6b5d43255a34aab009a25fd368e0f417"
+                "reference": "ce309911aabd89ef885673ddb924076c1c410356"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/ad1b54ed6b5d43255a34aab009a25fd368e0f417",
-                "reference": "ad1b54ed6b5d43255a34aab009a25fd368e0f417",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/ce309911aabd89ef885673ddb924076c1c410356",
+                "reference": "ce309911aabd89ef885673ddb924076c1c410356",
                 "shasum": ""
             },
             "require": {
@@ -597,7 +711,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2-dev"
+                    "dev-master": "3.3-dev"
                 }
             },
             "autoload": {
@@ -624,7 +738,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2016-08-26 12:08:28"
+            "time": "2017-04-12 14:14:56"
         },
         {
             "name": "twig/twig",
@@ -632,25 +746,26 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "c418d07c64bdf004635973f978c806a53a32b320"
+                "reference": "a083db55c242ed30451467c802633cddbad198ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/c418d07c64bdf004635973f978c806a53a32b320",
-                "reference": "c418d07c64bdf004635973f978c806a53a32b320",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/a083db55c242ed30451467c802633cddbad198ed",
+                "reference": "a083db55c242ed30451467c802633cddbad198ed",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.7"
             },
             "require-dev": {
+                "psr/container": "^1.0",
                 "symfony/debug": "~2.7",
-                "symfony/phpunit-bridge": "~2.7"
+                "symfony/phpunit-bridge": "~3.3@dev"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.24-dev"
+                    "dev-master": "1.33-dev"
                 }
             },
             "autoload": {
@@ -685,7 +800,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2016-09-01 17:55:16"
+            "time": "2017-04-26 18:47:34"
         }
     ],
     "packages-dev": [],
