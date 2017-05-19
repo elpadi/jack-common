@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e9be1eaaae06628e1f32cb286aa38b1f",
+    "content-hash": "77240ad892c95d6ff867a028ac1439e1",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -741,6 +741,59 @@
             "time": "2017-04-12 14:14:56"
         },
         {
+            "name": "thunderer/shortcode",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thunderer/Shortcode.git",
+                "reference": "483ea1363252c8c5b8d19449b3ad4289b9034877"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thunderer/Shortcode/zipball/483ea1363252c8c5b8d19449b3ad4289b9034877",
+                "reference": "483ea1363252c8c5b8d19449b3ad4289b9034877",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.1|^5.0|^6.0",
+                "symfony/yaml": "^2.0|^3.0"
+            },
+            "suggest": {
+                "ext-dom": "if you want to use XML serializer",
+                "ext-json": "if you want to use JSON serializer",
+                "symfony/yaml": "if you want to use YAML serializer"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Thunder\\Shortcode\\": "src/",
+                    "Thunder\\Shortcode\\Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tomasz Kowalczyk",
+                    "email": "tomasz@kowalczyk.cc"
+                }
+            ],
+            "description": "Advanced shortcode (BBCode) parser and engine for PHP",
+            "keywords": [
+                "bbcode",
+                "engine",
+                "library",
+                "parser",
+                "shortcode"
+            ],
+            "time": "2017-03-06 20:47:47"
+        },
+        {
             "name": "twig/twig",
             "version": "1.x-dev",
             "source": {
@@ -806,7 +859,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "thunderer/shortcode": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

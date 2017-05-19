@@ -8,3 +8,4 @@ website
 shopify
 mailer
 cache/*
+log/*

@@ -1,21 +1,26 @@
 <?php
 namespace Jack\Action;
 
+use Thunder\Shortcode\ShortcodeFacade;
+use Thunder\Shortcode\Shortcode\ShortcodeInterface;
+
 class Page {
 
 	protected $data;
+	protected $shortcodes;
 
 	public function __construct($route) {
 		$this->route = $route;
+		$this->data = [];
+		$this->shortcodes = new ShortcodeFacade();
 	}
 
 	protected function metaTitle() {
-		return sprintf('%s | %s', $this->route['name'] === 'intro' ? 'Welcome' : ucwords($this->route['name']), 'Jack Magazine');
+		return sprintf('%s | %s', isset($this->data['title']) ? $this->data['title'] : $this->route['name'], 'Jack Magazine');
 	}
 
 	protected function metaDescription() {
-		$entry = cockpit('collections:findOne', 'pagedescriptions', ['name' => $this->route['name']]);
-		return $entry ? $entry['content'] : '';
+		return isset($this->data['description']) ? $this->data['description'] : '';
 	}
 
 	protected function canonicalUrl($uri='') {
@@ -69,6 +74,9 @@ class Page {
 		global $app;
 		try {
 			$this->fetchData($args, $request);
+			if (isset($this->data['content'])) {
+				$this->data['content'] = $this->shortcodes->process($this->data['content']);
+			}
 		}
 		catch (\Exception $e) {
 			if (DEBUG) {
@@ -88,8 +96,22 @@ class Page {
 		return $this->finalize($response);
 	}
 
+	public function responsiveImageShortcode(ShortcodeInterface $s) {
+		global $app;
+		return sprintf('<img src="%s" srcset="%s" sizes="100vw" alt="">',
+			$app->imageManager->imageUrl($app->assetUrl($s->getParameter('path')), 'medium'),
+			$app->imageManager->responsiveImageSrcset($app->assetUrl($s->getParameter('path')), ['medium','large','double'])
+		);
+	}
+
+	protected function fetchPageData() {
+		$this->shortcodes->addHandler('resp_image', [$this, 'responsiveImageShortcode']);
+		$data = cockpit('collections:findOne', 'pages', ['path' => $_SERVER['REQUEST_URI']]);
+		$this->data = array_merge($this->data, $data);
+	}
+
 	protected function fetchData($args) {
-		$this->data = cockpit('collections:findOne', 'blocks', ['title' => ucwords($this->route['name'])]);
+		$this->fetchPageData();
 	}
 
 }
