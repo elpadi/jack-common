@@ -26,8 +26,12 @@ class Manager {
 		return sprintf('%s/%s/%s.%s', PUBLIC_ROOT_DIR, 'assets/cache/image-variants', $hash, $extension);
 	}
 
+	public static function generateHash($path, $width, $height) {
+		return md5(serialize([$path, $width, $height]));
+	}
+
 	protected function resizedPath($image, $dims) {
-		$filePath = static::hashToPath(md5(serialize([$image->path, $dims->getWidth(), $dims->getHeight()])), F\last(explode('.', $image->path)));
+		$filePath = static::hashToPath(static::generateHash($image->path, $dims->getWidth(), $dims->getHeight()), F\last(explode('.', $image->path)));
 		if (!file_exists($filePath)) {
 			$variant = new Variant($image, $dims);
 			$variant->save($filePath);
