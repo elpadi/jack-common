@@ -54,16 +54,22 @@ class SingleJsonPool implements CacheItemPoolInterface {
 	}
 
 	public function deleteItem($key) {
-		throw new \LogicException("This method should never be called.");
+		if ($this->hasItem($key)) {
+			unset($this->_values[$key]);
+			return $this->_push();
+		}
+		return FALSE;
 	}
 
 	public function deleteItems(array $keys) {
-		throw new \LogicException("This method should never be called.");
+		$this->fetchValues();
+		foreach ($keys as $key) unset($this->_values[$key]);
+		return $this->_push();
 	}
 
 	public function save(CacheItemInterface $item) {
 		$this->_values[$item->getKey()] = $item->get();
-		return file_put_contents($this->path, json_encode($this->_values));
+		return $this->_push();
 	}
 
 	public function saveDeferred(CacheItemInterface $item) {
@@ -72,6 +78,10 @@ class SingleJsonPool implements CacheItemPoolInterface {
 
 	public function commit() {
 		throw new \LogicException("This method should never be called.");
+	}
+
+	protected function _push() {
+		return file_put_contents($this->path, json_encode($this->_values));
 	}
 
 }
