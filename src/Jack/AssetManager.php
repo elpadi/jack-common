@@ -21,7 +21,11 @@ abstract class AssetManager {
 		return sprintf('%s/%s', static::getPublicPath(), $path);
 	}
 
-	public static function url($path) {
+	public static function path($path='') {
+		return sprintf('%s/%s', static::getPublicDir(), $path);
+	}
+
+	public static function url($path='') {
 		return sprintf('%s/%s', static::getPublicPath(), $path);
 	}
 
