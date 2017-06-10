@@ -107,7 +107,9 @@ class Page {
 	protected function fetchPageData() {
 		$this->shortcodes->addHandler('resp_image', [$this, 'responsiveImageShortcode']);
 		$data = cockpit('collections:findOne', 'pages', ['path' => $_SERVER['REQUEST_URI']]);
-		$this->data = array_merge($this->data, $data);
+		if ($data) {
+			$this->data = array_merge($this->data, $data);
+		}
 	}
 
 	protected function fetchData($args) {
