@@ -21,7 +21,8 @@
 		"twig/twig": "~1.0",
 		"imagine/imagine": "^0.6.3",
 		"symfony/cache": "^3.2",
-		"thunderer/shortcode": "dev-master"
+		"thunderer/shortcode": "dev-master",
+		"aura/session": "3.x-dev"
 	},
 	"autoload": {
 		"psr-4": {
