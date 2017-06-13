@@ -13,13 +13,16 @@ abstract class Template {
 		throw new \InvalidArgumentException("Cannot look in value of type '$htype'.");
 	}
 
-	public function initTwig() {
-		global $app;
-		$this->loader = new \Twig_Loader_Filesystem(static::getTemplateDir());
-		$this->twig = new \Twig_Environment($this->loader, array(
+	protected function initTwig() {
+		$loader = new \Twig_Loader_Filesystem(static::getTemplateDir());
+		return new \Twig_Environment($loader, array(
 			'debug' => DEBUG,
 			'cache' => DEBUG ? false : JACK_DIR.'/cache/twig',
 		));
+	}
+
+	protected function configTwig() {
+		global $app;
 		$this->twig->addFunction(new \Twig_SimpleFunction('php', function($fn) { return call_user_func_array($fn, array_slice(func_get_args(), 1)); }));
 		$this->twig->addFunction(new \Twig_SimpleFunction('urlFor', [$app, 'routeLookUp']));
 		$this->twig->addFilter(new \Twig_SimpleFilter('url', [$app, 'url']));
@@ -43,7 +46,8 @@ abstract class Template {
 
 	public function render($path, $vars) {
 		try {
-			$this->initTwig();
+			$this->twig = $this->initTwig();
+			$this->configTwig();
 			$this->twig->addGlobal('TEMPLATE_PATH', str_replace('/', ' ', $path));
 			$this->twig->addGlobal('URL_PATH', str_replace('/', ' ', substr($_SERVER['REQUEST_URI'], strlen(PUBLIC_ROOT))));
 			$content = $this->twig->render("$path.twig", $vars);
@@ -55,5 +59,9 @@ abstract class Template {
 		return $content;
 	}
 
+	public function snippet($name, $vars=array()) {
+		$twig = $this->initTwig();
+		return $twig->render("snippets/$name.twig", $vars);
+	}
 }
 
