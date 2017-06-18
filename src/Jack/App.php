@@ -44,7 +44,13 @@ abstract class App {
 	}	
 
 	public function routeLookUp($path, $placeholders=array()) {
-		return static::framework()->getContainer()->get('router')->pathFor($path, $placeholders);
+		try {
+			$url = static::framework()->getContainer()->get('router')->pathFor($path, $placeholders);
+		}
+		catch (\Exception $e) {
+			return '';
+		}
+		return $url;
 	}
 
 	public static function createTemplate() {
