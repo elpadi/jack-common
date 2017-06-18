@@ -35,7 +35,7 @@ abstract class AssetManager {
 			throw new \Exception("Need to join and minify assets.");
 		}
 		return implode(' ', array_map(function($path) use ($prefix, $media, $app) {
-			return sprintf('<link rel="stylesheet" href="%s" media="%s">', $app->assetUrl(sprintf('%s/%s.css?v=%d', $prefix, $path, $_ENV['CSS_VERSION'])), $media);
+			return sprintf('<link rel="stylesheet" href="%s" media="%s">', $app->assetUrl(sprintf('%s/%s.css?v=%d', $prefix, $path, getenv('CSS_VERSION'))), $media);
 		}, $paths));
 	}
 
@@ -45,7 +45,7 @@ abstract class AssetManager {
 			throw new \Exception("Need to join and minify assets.");
 		}
 		return implode(' ', array_map(function($path) use ($app, $prefix) {
-			return sprintf('<script src="%s"></script>', $app->assetUrl(sprintf('%s/%s.js?v=%d', $prefix, $path, $_ENV['JS_VERSION'])));
+			return sprintf('<script src="%s"></script>', $app->assetUrl(sprintf('%s/%s.js?v=%d', $prefix, $path, getenv('JS_VERSION'))));
 		}, $paths));
 	}
 
