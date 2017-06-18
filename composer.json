@@ -15,13 +15,15 @@
 	"minimum-stability": "dev",
 	"require": {
 		"php": ">=5.3.0",
+		"ext-gd": "*",
 		"lstrojny/functional-php": "~1.0",
 		"slim/slim": "^3.0",
 		"symfony/finder": "~3.0",
 		"twig/twig": "~1.0",
 		"imagine/imagine": "^0.6.3",
 		"symfony/cache": "^3.2",
-		"thunderer/shortcode": "dev-master"
+		"thunderer/shortcode": "dev-master",
+		"danielstjules/stringy": "~3.1"
 	},
 	"autoload": {
 		"psr-4": {

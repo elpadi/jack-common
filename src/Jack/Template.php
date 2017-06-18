@@ -1,6 +1,8 @@
 <?php
 namespace Jack;
 
+use function Stringy\create as s;
+
 abstract class Template {
 
 	protected static function getTemplateDir() {}
@@ -31,9 +33,10 @@ abstract class Template {
 		$twig->addFilter(new \Twig_SimpleFilter('image_url', [$app->imageManager, 'imageUrl']));
 		$twig->addFilter(new \Twig_SimpleFilter('srcset', [$app->imageManager, 'responsiveImageSrcset']));
 		$twig->addFunction(new \Twig_SimpleFunction('php', function($fn) { return call_user_func_array($fn, array_slice(func_get_args(), 1)); }));
+		$twig->addFilter(new \Twig_SimpleFilter('php', function($s, $fn) { return call_user_func_array($fn, array_merge([$s], array_slice(func_get_args(), 2))); }));
 		$twig->addFilter(new \Twig_SimpleFilter('pluck', '\Functional\pluck'));
 		$twig->addFilter(new \Twig_SimpleFilter('ordinal_sup', function($s) { return preg_replace('/([0-9])(st|nd|rd|th)/', '$1<sup>$2</sup>', $s); }));
-		$twig->addFilter(new \Twig_SimpleFilter('slug', function($s) { return trim(preg_replace('/[^a-z0-9]/', '-', trim(str_replace('&', 'and', strtolower($s)))), '-'); }));
+		$twig->addFilter(new \Twig_SimpleFilter('slug', function($s) { return s($s)->slugify(); }));
 		$twig->addFilter(new \Twig_SimpleFilter('has', [__CLASS__, 'includes']));
 		$twig->addFilter(new \Twig_SimpleFilter('css', [__NAMESPACE__.'\\AssetManager', 'css']));
 		$twig->addFilter(new \Twig_SimpleFilter('js', [__NAMESPACE__.'\\AssetManager', 'js']));
@@ -63,7 +66,8 @@ abstract class Template {
 	public function snippet($name, $vars=array()) {
 		$twig = $this->initTwig();
 		$this->extendTwig($twig);
-		return $twig->render("snippets/$name.twig", $vars);
+		$path = strpos($name, '/') === FALSE ? "snippets/$name.twig" : "$name.twig";
+		return $twig->render($path, $vars);
 	}
-}
 
+}
