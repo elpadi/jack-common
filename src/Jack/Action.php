@@ -1,20 +1,51 @@
 <?php
 namespace Jack;
 
+use Functional as F;
+
 class Action {
+
+	public static function routeNameToActionName($s) {
+		$parts = preg_split('/[^a-z]/', $s);
+		return $parts[0].join('', F\map(F\tail($parts), function($s) { return ucwords($s); }));
+	}
 
 	public static function create($route, $group) {
 		if (isset($route['action']) && is_string($route['action'])) return new Action\Redirect($route);
-		$actionName = str_replace(' ', '', ucwords(preg_replace('/[^a-z]/', ' ', $route['name'])));
-		foreach (App::namespaces() as $ns) {
-			$classname = '\\'.$ns.'\Action\\'.(isset($group['name']) ? ucfirst("$group[name]\\") : '').$actionName;
-			if (class_exists($classname)) return new $classname($route);
+		$actionName = static::routeNameToActionName($route['name']);
+		if (isset($group['name'])) {
+			$possibilities[] = ['class', ucfirst($group['name']), ucfirst($actionName)];
+			$possibilities[] = ['method', [ucfirst($group['name'])], $actionName];
 		}
+		$possibilities[] = ['class', ucfirst($actionName)];
+		$possibilities[] = ['method', ['Page'], $actionName];
+		$possibilities[] = ['class', 'Page'];
+		$match = F\first(F\select(F\map($possibilities, function($p) use ($route) {
+			if ($p[0] === 'class') return static::matchClass(F\tail($p), $route);
+			if ($p[0] === 'method') return static::matchMethod($p[1], $p[2], $route);
+		}), '\\Functional\\id'));
+		return $match ? $match : new Action\NotFound();
+	}
+
+	protected static function matchClass($parts, $route) {
 		foreach (App::namespaces() as $ns) {
-			$classname = '\\'.$ns.'\Action\Page';
-			if (class_exists($classname)) return new $classname($route);
+			$class = join('\\', array_merge(['', $ns, 'Action'], $parts));
+			if (class_exists($class)) return new $class($route);
 		}
-		return new Action\NotFound();
+		return false;
+	}
+
+	protected static function matchMethod($class_parts, $method, $route) {
+		foreach (App::namespaces() as $ns) {
+			$class = join('\\', array_merge(['', $ns, 'Action'], $class_parts));
+			if (
+				class_exists($class)
+				&& method_exists(new $class($route), $method)
+			) {
+				return new $class($route, $method);
+			}
+		}
+		return false;
 	}
 
 }

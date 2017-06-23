@@ -1,19 +1,13 @@
 <?php
 namespace Jack\Action;
 
-use Thunder\Shortcode\ShortcodeFacade;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
 class Page {
 
-	protected $data;
-	protected $shortcodes;
+	use ActionTrait;
 
-	public function __construct($route) {
-		$this->route = $route;
-		$this->data = [];
-		$this->shortcodes = new ShortcodeFacade();
-	}
+	protected $shortcodes;
 
 	protected function metaTitle() {
 		return sprintf('%s | %s', isset($this->data['title']) ? $this->data['title'] : $this->route['name'], 'Jack Magazine');
@@ -66,11 +60,27 @@ class Page {
 		return $response->write($this->render());
 	}
 
-	protected function api($response) {
-		return $response->withHeader('Content-type', 'application/json')->write(json_encode($this->data));
+	public function responsiveImageShortcode(ShortcodeInterface $s) {
+		global $app;
+		return sprintf('<img src="%s" srcset="%s" sizes="100vw" alt="">',
+			$app->imageManager->imageUrl($app->assetUrl($s->getParameter('path')), 'medium'),
+			$app->imageManager->responsiveImageSrcset($app->assetUrl($s->getParameter('path')), ['medium','large','double'])
+		);
 	}
 
-	public function run($request, $response, $args) {
+	protected function fetchPageData() {
+		$this->shortcodes->addHandler('resp_image', [$this, 'responsiveImageShortcode']);
+		$data = cockpit('collections:findOne', 'pages', ['path' => $_SERVER['REQUEST_URI']]);
+		if ($data) {
+			$this->data = array_merge($this->data, $data);
+		}
+	}
+
+	protected function fetchData($args) {
+		$this->fetchPageData();
+	}
+
+	protected function page($request, $response, $args) {
 		global $app;
 		try {
 			$this->fetchData($args, $request);
@@ -94,26 +104,6 @@ class Page {
 			'GRAPH_TAGS' => $this->graphTags(),
 		]);
 		return $this->finalize($response);
-	}
-
-	public function responsiveImageShortcode(ShortcodeInterface $s) {
-		global $app;
-		return sprintf('<img src="%s" srcset="%s" sizes="100vw" alt="">',
-			$app->imageManager->imageUrl($app->assetUrl($s->getParameter('path')), 'medium'),
-			$app->imageManager->responsiveImageSrcset($app->assetUrl($s->getParameter('path')), ['medium','large','double'])
-		);
-	}
-
-	protected function fetchPageData() {
-		$this->shortcodes->addHandler('resp_image', [$this, 'responsiveImageShortcode']);
-		$data = cockpit('collections:findOne', 'pages', ['path' => $_SERVER['REQUEST_URI']]);
-		if ($data) {
-			$this->data = array_merge($this->data, $data);
-		}
-	}
-
-	protected function fetchData($args) {
-		$this->fetchPageData();
 	}
 
 }
