@@ -24,7 +24,9 @@
 		"symfony/cache": "^3.2",
 		"thunderer/shortcode": "dev-master",
 		"aura/session": "3.x-dev",
-		"danielstjules/stringy": "~3.1"
+		"danielstjules/stringy": "~3.1",
+		"symfony/debug": "3.4.x-dev",
+		"symfony/var-dumper": "3.4.x-dev"
 	},
 	"autoload": {
 		"psr-4": {

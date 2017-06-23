@@ -1,5 +1,6 @@
 <?php
 use Jack\Jack;
+use Symfony\Component\Debug;
 
 define('JACK_DIR', dirname(__DIR__));
 define('IS_LOCAL', in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', "::1")) || strpos($_SERVER['HTTP_HOST'], 'localhost') !== false);
@@ -12,3 +13,8 @@ error_reporting(DEBUG ? E_ALL : 0);
 
 require(JACK_DIR.'/vendor/autoload.php');
 
+if (DEBUG) {
+	Debug\Debug::enable();
+	Debug\ErrorHandler::register();
+	Debug\ExceptionHandler::register();
+}
