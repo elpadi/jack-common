@@ -19,7 +19,7 @@ abstract class Template {
 		$loader = new \Twig_Loader_Filesystem(static::getTemplateDir());
 		$twig = new \Twig_Environment($loader, array(
 			'debug' => DEBUG,
-			'cache' => DEBUG ? false : JACK_DIR.'/cache/twig',
+			'cache' => FALSE
 		));
 		return $twig;
 	}
