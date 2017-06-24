@@ -9,6 +9,7 @@ abstract class App {
 	protected $_assets;
 	protected $_router;
 	public $templateManager;
+	public static $container;
 
 	public function __construct() {
 		clearstatcache();
@@ -16,6 +17,14 @@ abstract class App {
 		$this->_router = new Router();
 		$this->imageManager = new Images\Manager();
 		$this->templateManager = static::createTemplate();
+		$container = new \Pimple\Container();
+		$container['session'] = function() {
+			$session_factory = new \Aura\Session\SessionFactory;
+			$session = $session_factory->newInstance($_COOKIE);
+			$session->setCookieParams(['lifetime' => 3600 * 24 * 365]);
+			return $session;
+		};
+		static::$container = $container;
 	}
 
 	public static function instance() {
