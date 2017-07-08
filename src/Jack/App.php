@@ -1,6 +1,8 @@
 <?php
 namespace Jack;
 
+use Symfony\Component\Debug\ExceptionHandler;
+
 abstract class App {
 
 	use Jack;
@@ -23,6 +25,18 @@ abstract class App {
 			$session = $session_factory->newInstance($_COOKIE);
 			$session->setCookieParams(['lifetime' => 3600 * 24 * 365]);
 			return $session;
+		};
+		$container['events'] = function() {
+			return new \Symfony\Component\EventDispatcher\EventDispatcher();
+		};
+		$container['images'] = function() {
+			return new Images\Manager();
+		};
+		$container['assets'] = function() {
+			return static::createAssetManager();
+		};
+		$container['templates'] = function() {
+			return static::createTemplate();
 		};
 		static::$container = $container;
 	}
@@ -49,7 +63,7 @@ abstract class App {
 	}
 
 	public function render($path, $args=array()) {
-		return $this->templateManager->render($path, $args);
+		return static::$container['templates']->render($path, $args);
 	}	
 
 	public function routeLookUp($path, $placeholders=array()) {
@@ -60,6 +74,17 @@ abstract class App {
 			return '';
 		}
 		return $url;
+	}
+
+	public static function routeUrl($path, $placeholders=array()) {
+		global $app;
+		return $app->routeLookUp($path, $placeholders);
+	}
+
+	public static function redirect($url) {
+		$canonical = static::canonicalUrl($url);
+		header("Location: $url");
+		exit();
 	}
 
 	public static function createTemplate() {
@@ -74,8 +99,12 @@ abstract class App {
 		return $this->_assets->url($path);
 	}
 
-	public function url($path) {
+	public static function url($path) {
 		return sprintf('%s/%s', PUBLIC_ROOT === '/' ? '' : PUBLIC_ROOT, $path);
+	}
+
+	public static function canonicalUrl($uri='') {
+		return sprintf('%s://%s%s', isset($_SERVER['HTTPS']) ? "https" : "http", $_SERVER['HTTP_HOST'], $uri ? $uri : $_SERVER['REQUEST_URI']);
 	}
 
 	public function urlToSource($url_path) {
@@ -84,6 +113,12 @@ abstract class App {
 
 	public function errorResponse($response, $exception) {
 		return $response->withStatus($exception->getCode())->write($this->render('default', ['content' => sprintf('<h2>%d</h2><p>%s</p>', $exception->getCode(), $exception->getMessage())]));
+	}
+
+	public static function debugError($exception) {
+		$handler = new ExceptionHandler();
+		$handler->sendPhpResponse($exception);
+		exit();
 	}
 
 	public function notAuthorized($response) {

@@ -48,17 +48,21 @@ abstract class Template {
 		return is_readable(static::getTemplateDir()."/$path.twig");
 	}
 
+	protected function addCommonVariables(&$vars, $path) {
+		$this->twig->addGlobal('TEMPLATE_PATH', str_replace('/', ' ', $path));
+		$this->twig->addGlobal('URL_PATH', str_replace('/', ' ', substr($_SERVER['REQUEST_URI'], strlen(PUBLIC_ROOT))));
+	}
+
 	public function render($path, $vars) {
 		try {
 			$this->twig = $this->initTwig();
 			$this->extendTwig($this->twig);
-			$this->twig->addGlobal('TEMPLATE_PATH', str_replace('/', ' ', $path));
-			$this->twig->addGlobal('URL_PATH', str_replace('/', ' ', substr($_SERVER['REQUEST_URI'], strlen(PUBLIC_ROOT))));
+			$this->addCommonVariables($vars, $path);
 			$content = $this->twig->render("$path.twig", $vars);
 		}
 		catch (\Exception $e) {
-			var_dump(__FILE__.":".__LINE__." - ".__METHOD__, $e);
-			exit(0);
+			if (DEBUG) App::debugError($e);
+			return '';
 		}
 		return $content;
 	}

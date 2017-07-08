@@ -2,6 +2,7 @@
 namespace Jack\Action;
 
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
+use Jack\App;
 
 class Page {
 
@@ -10,15 +11,12 @@ class Page {
 	protected $shortcodes;
 
 	protected function metaTitle() {
-		return sprintf('%s | %s', isset($this->data['title']) ? $this->data['title'] : $this->route['name'], 'Jack Magazine');
+		$title = sprintf('%s | %s', isset($this->data['title']) ? $this->data['title'] : ucwords($this->route['name']), 'Jack Magazine');
+		return $title;
 	}
 
 	protected function metaDescription() {
 		return isset($this->data['description']) ? $this->data['description'] : '';
-	}
-
-	protected function canonicalUrl($uri='') {
-		return sprintf('%s://%s%s', isset($_SERVER['HTTPS']) ? "https" : "http", $_SERVER['HTTP_HOST'], $uri ? $uri : $_SERVER['REQUEST_URI']);
 	}
 
 	protected function graphTags() {
@@ -28,7 +26,7 @@ class Page {
 				'description' => $this->metaDescription(),
 				'image' => '',
 				'type' => 'website',
-				'url' => $this->canonicalUrl(),
+				'url' => App::canonicalUrl(),
 			],
 			'TWITTER_CARD' => [
 				'card' => 'summary',
@@ -39,9 +37,8 @@ class Page {
 	}
 
 	protected function templatePath() {
-		global $app;
 		$path = "pages/{$this->route['name']}";
-		return $app->templateManager->exists($path) ? $path : 'default';
+		return App::$container['templates']->exists($path) ? $path : 'default';
 	}
 
 	protected function render() {
@@ -69,7 +66,6 @@ class Page {
 	}
 
 	protected function fetchPageData() {
-		$this->shortcodes->addHandler('resp_image', [$this, 'responsiveImageShortcode']);
 		$data = cockpit('collections:findOne', 'pages', ['path' => $_SERVER['REQUEST_URI']]);
 		if ($data) {
 			$this->data = array_merge($this->data, $data);
@@ -82,6 +78,7 @@ class Page {
 
 	protected function page($request, $response, $args) {
 		global $app;
+		$this->shortcodes->addHandler('resp_image', [$this, 'responsiveImageShortcode']);
 		try {
 			$this->fetchData($args, $request);
 			if (isset($this->data['content'])) {
@@ -89,18 +86,15 @@ class Page {
 			}
 		}
 		catch (\Exception $e) {
-			if (DEBUG) {
-				var_dump(__FILE__.":".__LINE__." - ".__METHOD__, $e);
-				exit(0);
-			}
-			return $app->errorResponse($response, $e);
+			if (DEBUG) App::debugError($e);
 		}
-		if ($request->getContentType() === 'application/json') return $this->api($response);
+		if (strpos($request->getHeaderLine('accept'), 'application/json') === 0) return $this->api($response);
 		$this->data['assets'] = $this->assets();
 		$this->data = array_merge(isset($this->data) ? $this->data : [], [
 			'META_TITLE' => $this->metaTitle(),
 			'META_DESCRIPTION' => $this->metaDescription(),
-			'CANONICAL_URL' => $this->canonicalUrl(),
+			'CANONICAL_URL' => App::canonicalUrl(),
+			'ACTION_CLASS' => get_class($this),
 			'GRAPH_TAGS' => $this->graphTags(),
 		]);
 		return $this->finalize($response);
