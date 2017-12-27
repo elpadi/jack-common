@@ -27,6 +27,11 @@ abstract class Template {
 	protected function extendTwig(\Twig_Environment $twig) {
 		global $app;
 		$twig->addFunction(new \Twig_SimpleFunction('urlFor', [$app, 'routeLookUp']));
+		$twig->addFunction(new \Twig_SimpleFunction('d', 'dump'));
+		$twig->addFunction(new \Twig_SimpleFunction('dd', function() {
+			call_user_func_array('dump', func_get_args());
+			exit();
+		}));
 		$twig->addFilter(new \Twig_SimpleFilter('url', [$app, 'url']));
 		$twig->addFilter(new \Twig_SimpleFilter('asset_url', [$app, 'assetUrl']));
 		$twig->addFilter(new \Twig_SimpleFilter('source', [$app, 'urlToSource']));
