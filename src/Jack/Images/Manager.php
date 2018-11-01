@@ -39,17 +39,17 @@ class Manager {
 		return $filePath;
 	}
 
-	public function imageUrl($path, $size='small') {
+	public function imageUrl($path, $size='medium') {
 		$image = $this->createImage($path);
 		return static::filePathToUrl($this->resizedPath($image, $image->resizedDims($size)));
 	}
 
 	public function responsiveImageSrcset($path, $sizes=array()) {
-		if (empty($sizes)) $sizes = ['small','medium','large'];
+		if (empty($sizes)) $sizes = ['large','xl'];
 		$image = $this->createImage($path);
-		foreach ($sizes as $size) {
+		foreach ($sizes as $i => $size) {
 			$dims = $image->resizedDims($size);
-			$srcset[] = sprintf('%s %dw', static::filePathToUrl($this->resizedPath($image, $dims)), $dims->getWidth());
+			$srcset[] = sprintf('%s %dx', static::filePathToUrl($this->resizedPath($image, $dims)), $i + 1);
 		}
 		return implode(', ', $srcset);
 	}

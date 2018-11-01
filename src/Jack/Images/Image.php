@@ -14,8 +14,9 @@ class Image {
 		'tiny' => 160,
 		'small' => 320,
 		'medium' => 640,
-		'large' => 1024,
-		'double' => 2048,
+		'large' => 1280,
+		'xl' => 1920,
+		'xxl' => 2560,
 	];
 
 	public function __construct($path) {
