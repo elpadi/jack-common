@@ -39,6 +39,12 @@ class Manager {
 		return $filePath;
 	}
 
+	public function getMediumSize($path) {
+		$image = $this->createImage($path);
+		$dims = $image->resizedDims('medium');
+		return sprintf('%dx%d', $dims->getWidth(), $dims->getHeight());
+	}
+
 	public function imageUrl($path, $size='medium') {
 		$image = $this->createImage($path);
 		return static::filePathToUrl($this->resizedPath($image, $image->resizedDims($size)));
@@ -49,12 +55,12 @@ class Manager {
 		$image = $this->createImage($path);
 		foreach ($sizes as $i => $size) {
 			$dims = $image->resizedDims($size);
-			$srcset[] = sprintf('%s %dx', static::filePathToUrl($this->resizedPath($image, $dims)), $i + 1);
+			$srcset[] = sprintf('%s %dx', static::filePathToUrl($this->resizedPath($image, $dims)), $i + 2);
 		}
 		return implode(', ', $srcset);
 	}
 
-	protected function getImageMeta($path) {
+	public function getImageMeta($path) {
 			$image = (new Imagine())->open(static::filePath($path));
 			$dims = $image->getSize();
 			$image = null;

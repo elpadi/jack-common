@@ -37,6 +37,7 @@ abstract class Template {
 		$twig->addFilter(new \Twig_SimpleFilter('source', [$app, 'urlToSource']));
 		$twig->addFilter(new \Twig_SimpleFilter('image_url', [$app->imageManager, 'imageUrl']));
 		$twig->addFilter(new \Twig_SimpleFilter('srcset', [$app->imageManager, 'responsiveImageSrcset']));
+		$twig->addFilter(new \Twig_SimpleFilter('imgsize', [$app->imageManager, 'getMediumSize']));
 		$twig->addFunction(new \Twig_SimpleFunction('php', function($fn) { return call_user_func_array($fn, array_slice(func_get_args(), 1)); }));
 		$twig->addFilter(new \Twig_SimpleFilter('php', function($s, $fn) { return call_user_func_array($fn, array_merge([$s], array_slice(func_get_args(), 2))); }));
 		$twig->addFilter(new \Twig_SimpleFilter('pluck', '\Functional\pluck'));
