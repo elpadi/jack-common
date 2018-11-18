@@ -32,6 +32,9 @@ abstract class App {
 		$container['images'] = function() {
 			return new Images\Manager();
 		};
+		$container['logger'] = function() {
+			return new Logging\Logger();
+		};
 		$container['assets'] = function() {
 			return static::createAssetManager();
 		};

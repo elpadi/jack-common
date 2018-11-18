@@ -23,6 +23,7 @@ class Action {
 		$possibilities[] = ['class', 'Page'];
 		$event = new GenericEvent(NULL, compact('possibilities','route','routeArgs'));
 		App::$container['events']->dispatch('action.edit_possibilities', $event);
+		App::$container['logger']->info($possibilities, [__FILE__, __LINE__, __METHOD__]);
 		$match = F\first(F\select(F\map($event['possibilities'], function($p) use ($route) {
 			if ($p[0] === 'class') return static::matchClass(F\tail($p), $route);
 			if ($p[0] === 'method') return static::matchMethod($p[1], $p[2], $route);

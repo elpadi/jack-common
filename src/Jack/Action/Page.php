@@ -65,9 +65,12 @@ class Page {
 		);
 	}
 
+	protected function fetchCurrentPage() {
+		return function_exists('cockpit') ? cockpit('collections:findOne', 'pages', ['path' => $_SERVER['REQUEST_URI']]) : NULL;
+	}
+
 	protected function fetchPageData() {
-		$data = cockpit('collections:findOne', 'pages', ['path' => $_SERVER['REQUEST_URI']]);
-		if ($data) {
+		if ($data = $this->fetchCurrentPage()) {
 			$this->data = array_merge($this->data, $data);
 		}
 	}

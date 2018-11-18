@@ -33,7 +33,6 @@
 	"autoload": {
 		"psr-4": {
 			"Jack\\": "src/Jack"
-		},
-		"files": ["config/jack.php"]
+		}
 	}
 }
