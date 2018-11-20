@@ -19,8 +19,19 @@ abstract class Template {
 		$loader = new \Twig_Loader_Filesystem(static::getTemplateDir());
 		$twig = new \Twig_Environment($loader, array(
 			'debug' => DEBUG,
-			'cache' => FALSE
+			//'strict_variables' => DEBUG,
+			'auto_reload' => TRUE,
+			//'optimizations' => DEBUG ? 0 : -1,
+			'cache' => DEBUG == FALSE
 		));
+		if (DEBUG && $_ENV['TEST_TWIG']) {
+			$deprecationsCollector = new \Twig_Util_DeprecationCollector($twig);
+			$deprecations = $deprecationsCollector->collectDir(static::getTemplateDir());
+			if (!empty($deprecations)) {
+				dump(__FILE__.":".__LINE__." - ".__METHOD__, $deprecations);
+				exit();
+			}
+		}
 		return $twig;
 	}
 
@@ -67,17 +78,29 @@ abstract class Template {
 			$content = $this->twig->render("$path.twig", $vars);
 		}
 		catch (\Exception $e) {
-			if (DEBUG) App::debugError($e);
+			if (DEBUG) {
+				dump(__FILE__.":".__LINE__." - ".__METHOD__, $e);
+				exit(0);
+			}
 			return '';
 		}
 		return $content;
 	}
 
 	public function snippet($name, $vars=array()) {
-		$twig = $this->initTwig();
-		$this->extendTwig($twig);
-		$path = strpos($name, '/') === FALSE ? "snippets/$name.twig" : "$name.twig";
-		return $twig->render($path, $vars);
+		try {
+			$twig = $this->initTwig();
+			$this->extendTwig($twig);
+			$path = strpos($name, '/') === FALSE ? "snippets/$name.twig" : "$name.twig";
+			return $twig->render($path, $vars);
+		}
+		catch (\Exception $e) {
+			if (DEBUG) {
+				dump(__FILE__.":".__LINE__." - ".__METHOD__, $e);
+				exit(0);
+			}
+			return '';
+		}
 	}
 
 }

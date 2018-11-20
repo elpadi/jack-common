@@ -115,6 +115,10 @@ abstract class App {
 	}
 
 	public function errorResponse($response, $exception) {
+		if (DEBUG) {
+			dump(__FILE__.":".__LINE__." - ".__METHOD__, $exception, $exception->getPrevious());
+			exit(0);
+		}
 		return $response->withStatus($exception->getCode())->write($this->render('default', ['content' => sprintf('<h2>%d</h2><p>%s</p>', $exception->getCode(), $exception->getMessage())]));
 	}
 
