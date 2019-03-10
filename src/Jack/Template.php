@@ -24,7 +24,7 @@ abstract class Template {
 			//'optimizations' => DEBUG ? 0 : -1,
 			'cache' => DEBUG == FALSE
 		));
-		if (DEBUG && $_ENV['TEST_TWIG']) {
+		if (DEBUG && isset($_ENV['TEST_TWIG'])) {
 			$deprecationsCollector = new \Twig_Util_DeprecationCollector($twig);
 			$deprecations = $deprecationsCollector->collectDir(static::getTemplateDir());
 			if (!empty($deprecations)) {

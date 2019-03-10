@@ -9,13 +9,15 @@ use Imagine\Image\Box;
 class Manager {
 
 	public $metaCache;
+	public $isResizingEnabled;
 
 	public function __construct() {
-		$this->metaCache = new ProxyAdapter(new \Jack\Cache\SingleJsonPool('image-meta'));
+		$this->isResizingEnabled = !IS_LOCAL || isset($_ENV['TEST_IMAGE_RESIZER']);
+		if ($this->isResizingEnabled) $this->metaCache = new ProxyAdapter(new \Jack\Cache\SingleJsonPool('image-meta'));
 	}
 
-	public static function filePath($path) {
-		return realpath(PUBLIC_ROOT_DIR.$path);
+	public static function filePath($url) {
+		return realpath(PUBLIC_ROOT_DIR.$url);
 	}
 
 	public static function filePathToUrl($path) {
@@ -26,8 +28,8 @@ class Manager {
 		return sprintf('%s/%s/%s.%s', PUBLIC_ROOT_DIR, 'assets/cache/image-variants', $hash, $extension);
 	}
 
-	public static function generateHash($path, $width, $height) {
-		return md5(serialize([$path, $width, $height]));
+	public static function generateHash($url, $width, $height) {
+		return md5(serialize([$url, $width, $height]));
 	}
 
 	protected function resizedPath($image, $dims) {
@@ -39,29 +41,37 @@ class Manager {
 		return $filePath;
 	}
 
-	public function getMediumSize($path) {
-		$image = $this->createImage($path);
-		$dims = $image->resizedDims('medium');
-		return sprintf('%dx%d', $dims->getWidth(), $dims->getHeight());
-	}
-
-	public function imageUrl($path, $size='medium') {
-		$image = $this->createImage($path);
-		return static::filePathToUrl($this->resizedPath($image, $image->resizedDims($size)));
-	}
-
-	public function responsiveImageSrcset($path, $sizes=array()) {
-		if (empty($sizes)) $sizes = ['large','xl'];
-		$image = $this->createImage($path);
-		foreach ($sizes as $i => $size) {
-			$dims = $image->resizedDims($size);
-			$srcset[] = sprintf('%s %dx', static::filePathToUrl($this->resizedPath($image, $dims)), $i + 2);
+	public function getMediumSize($url) {
+		if ($this->isResizingEnabled) {
+			$image = $this->createImage($url);
+			$dims = $image->resizedDims('medium');
+			return sprintf('%dx%d', $dims->getWidth(), $dims->getHeight());
 		}
-		return implode(', ', $srcset);
 	}
 
-	public function getImageMeta($path) {
-			$image = (new Imagine())->open(static::filePath($path));
+	public function imageUrl($url, $size='medium') {
+		if ($this->isResizingEnabled) {
+			$image = $this->createImage($url);
+			return static::filePathToUrl($this->resizedPath($image, $image->resizedDims($size)));
+		}
+		return $url;
+	}
+
+	public function responsiveImageSrcset($url, $sizes=array()) {
+		if ($this->isResizingEnabled) {
+			if (empty($sizes)) $sizes = ['large','xl'];
+			$image = $this->createImage($url);
+			foreach ($sizes as $i => $size) {
+				$dims = $image->resizedDims($size);
+				$srcset[] = sprintf('%s %dx', static::filePathToUrl($this->resizedPath($image, $dims)), $i + 2);
+			}
+			return implode(', ', $srcset);
+		}
+		return '';
+	}
+
+	public function getImageMeta($url) {
+			$image = (new Imagine())->open(static::filePath($url));
 			$dims = $image->getSize();
 			$image = null;
 			$meta['width'] = $dims->getWidth();
@@ -69,13 +79,13 @@ class Manager {
 			return $meta;
 	}
 
-	protected function createImage($path) {
-		$image = new Image($path);
-		$cacheKey = md5($path);
+	protected function createImage($url) {
+		$image = new Image($url);
+		$cacheKey = md5($url);
 		$cacheItem = $this->metaCache->getItem($cacheKey);
 		if ($cacheItem->isHit()) $image->setMeta($cacheItem->get());
 		else {
-			$meta = $this->getImageMeta($path);
+			$meta = $this->getImageMeta($url);
 			$cacheItem->set($meta);
 			$this->metaCache->save($cacheItem);
 			$image->setMeta($meta);

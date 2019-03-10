@@ -93,11 +93,11 @@ abstract class App {
 	public static function createTemplate() {
 		return new Template();
 	}	
-	
+
 	public static function createAssetManager() {
 		return new AssetManager();
 	}	
-	
+
 	public function assetUrl($path) {
 		return $this->_assets->url($path);
 	}
