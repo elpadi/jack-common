@@ -102,6 +102,16 @@ abstract class App {
 		return $this->_assets->url($path);
 	}
 
+	public function appendModifiedTime($url) {
+		if ($parts = parse_url($url)) {
+			$fp = PUBLIC_ROOT_DIR.'/'.$parts['path'];
+			if ($t = filemtime($fp)) {
+				return $url.(empty($parts['query']) ? '?' : '&')."mtime=$t";
+			}
+		}
+		return $url;
+	}
+
 	public static function url($path) {
 		return sprintf('%s/%s', PUBLIC_ROOT === '/' ? '' : PUBLIC_ROOT, $path);
 	}

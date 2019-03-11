@@ -45,6 +45,7 @@ abstract class Template {
 		}));
 		$twig->addFilter(new \Twig_SimpleFilter('url', [$app, 'url']));
 		$twig->addFilter(new \Twig_SimpleFilter('asset_url', [$app, 'assetUrl']));
+		$twig->addFilter(new \Twig_SimpleFilter('append_mtime', [$app, 'appendModifiedTime']));
 		$twig->addFilter(new \Twig_SimpleFilter('source', [$app, 'urlToSource']));
 		$twig->addFilter(new \Twig_SimpleFilter('image_url', [$app->imageManager, 'imageUrl']));
 		$twig->addFilter(new \Twig_SimpleFilter('srcset', [$app->imageManager, 'responsiveImageSrcset']));
