@@ -58,6 +58,7 @@ abstract class Template {
 		$twig->addFilter(new \Twig_SimpleFilter('has', [__CLASS__, 'includes']));
 		$twig->addFilter(new \Twig_SimpleFilter('css', [__NAMESPACE__.'\\AssetManager', 'css']));
 		$twig->addFilter(new \Twig_SimpleFilter('js', [__NAMESPACE__.'\\AssetManager', 'js']));
+		$twig->addGlobal('IS_LOCAL', IS_LOCAL);
 		$twig->addGlobal('DEBUG', DEBUG);
 		$twig->addGlobal('SERVER', $_SERVER);
 	}
