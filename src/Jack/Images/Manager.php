@@ -49,7 +49,7 @@ class Manager {
 		}
 	}
 
-	public function imageUrl($url, $size='medium') {
+	public function imageUrl($url, $size='large') {
 		if ($this->isResizingEnabled) {
 			$image = $this->createImage($url);
 			return static::filePathToUrl($this->resizedPath($image, $image->resizedDims($size)));
@@ -59,7 +59,7 @@ class Manager {
 
 	public function responsiveImageSrcset($url, $sizes=array()) {
 		if ($this->isResizingEnabled) {
-			if (empty($sizes)) $sizes = ['large','xl'];
+			if (empty($sizes)) $sizes = ['xl','xxl'];
 			$image = $this->createImage($url);
 			foreach ($sizes as $i => $size) {
 				$dims = $image->resizedDims($size);
